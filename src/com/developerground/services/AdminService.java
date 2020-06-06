@@ -22,8 +22,7 @@ public class AdminService {
 		return adminDao.getRequests();		
 	}
 
-	public void updateStatus(Caterer caterer, String status) {
-		caterer.setStatus(status);
-		adminDao.updateStatus(caterer);
+	public void updateStatus(int catererID, String status) {
+		adminDao.updateStatus(catererID,status);
 	}
 }

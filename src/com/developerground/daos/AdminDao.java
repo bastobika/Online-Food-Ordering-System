@@ -42,8 +42,12 @@ public class AdminDao {
 	}
 
 	@Transactional
-	public void updateStatus(Caterer caterer) {
+	public void updateStatus(int catererID,String status) {
 		Session session = sessionFactory.getCurrentSession();
+		Query<Caterer> query = session.createQuery("from caterers where Caterer_ID=:catererID", Caterer.class);
+		query.setParameter("catererID", catererID);
+		Caterer caterer = query.getResultList().get(0);
+		caterer.setStatus(status);
 		session.save(caterer);
 	}
 }

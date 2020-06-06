@@ -9,18 +9,18 @@
 <html>
 <head>
 <meta charset="ISO-8859-1">
-<title>Caterer Sign Up</title>
+<title>Customer Sign Up</title>
 </head>
 <body>
-		<c:if test="${ status == 'duplicateEntry' }" >
+		<c:if test="${ customerStatus eq 'duplicateEntry' }" >
 			Email or Phone Number already exists ! Please try with a different email or phone !
 		</c:if>
-		<form:form action="../caterer/signUp" method="POST" modelAttribute="caterer">
+		<form:form action="../customer/signUp" method="POST" modelAttribute="customer">
 			Name : <form:input path="name"/>
 			Email : <form:input path="email"/>
 			Phone : <form:input path="phone" />
 			Password : <form:input path="password" />
-			Will you serve Veg/Non-Veg/Both ? : <form:select path="foodType">
+			Do you prefer Veg/Non-Veg/Both ? : <form:select path="preference">
 																				<form:option value="Veg"> Veg </form:option>
 																				<form:option value="NonVeg"> Non-Veg </form:option>
 																				<form:option value="Both"> Both </form:option>

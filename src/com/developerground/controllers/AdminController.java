@@ -1,6 +1,5 @@
 package com.developerground.controllers;
 
-import java.net.http.HttpRequest;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -50,9 +49,8 @@ public class AdminController {
 	}
 	
 	@GetMapping("/updateStatus")
-	public String updateStatus(/*@RequestParam("caterer")Caterer caterer,@RequestParam("status")String status*/ HttpRequest request) {
-		System.out.println("CATERER "+caterer.getClass()+"    status "+status);
-		adminService.updateStatus(caterer,status);
-		return "adminHome";
+	public String updateStatus(@RequestParam("catererID")String catererID,@RequestParam("status")String status) {
+		adminService.updateStatus(Integer.parseInt(catererID),status);
+		return "redirect:requests";       //redirects to requests GetMapping, that is it automatically calls getRequests
 	}
 }

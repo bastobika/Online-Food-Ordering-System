@@ -12,16 +12,13 @@ import javax.persistence.OneToMany;
 
 import org.springframework.stereotype.Component;
 
-@Component("caterer")
-@Entity(name="caterers")
-public class Caterer {
-	
-		@OneToMany(cascade= {CascadeType.DETACH, CascadeType.MERGE,CascadeType.PERSIST,CascadeType.REFRESH}, mappedBy="caterer")
-		private List<FoodItem> foodItems;
-	
+@Component("customer")
+@Entity(name="customers")
+public class Customer {
+
 		@Id
 		@GeneratedValue(strategy=GenerationType.IDENTITY)
-		@Column(name="Caterer_ID", nullable=false, unique=true )
+		@Column(name="Customer_ID", nullable=false, unique=true )
 		private int ID;
 		
 		@Column(name="Name", nullable=false )
@@ -36,14 +33,9 @@ public class Caterer {
 		@Column(name="Password", nullable=false)
 		private String password;
 		
-		@Column(name="Food_Type", nullable=false )
-		private String foodType;
-		
-		@Column(name="Rating", nullable=false )
-		private double rating;
-		
-		@Column(name="Status", nullable=false )
-		private String status;
+		@Column(name="Preference", nullable=false)
+		private String preference;
+
 		
 		public int getID() {
 			return ID;
@@ -75,33 +67,16 @@ public class Caterer {
 		public void setPassword(String password) {
 			this.password = password;
 		}
-		public String getFoodType() {
-			return foodType;
+		public String getPreference() {
+			return preference;
 		}
-		public void setFoodType(String foodType) {
-			this.foodType = foodType;
-		}
-		public double getRating() {
-			return rating;
-		}
-		public void setRating(int rating) {
-			this.rating = rating;
-		}
-		public String getStatus() {
-			return status;
-		}
-		public void setStatus(String status) {
-			this.status = status;
-		}	
-		public List<FoodItem> getFoodItems() {
-			return foodItems;
-		}
-		public void setFoodItems(List<FoodItem> foodItems) {
-			this.foodItems = foodItems;
+		public void setPreference(String preference) {
+			this.preference = preference;
 		}
 		@Override
 		public String toString() {
-			return "Caterer [ID=" + ID + ", name=" + name + ", email=" + email + ", phone=" + phone + ", password="
-					+ password + ", foodType=" + foodType + ", rating=" + rating + ", status=" + status + "]";
+			return "Customer [ID=" + ID + ", name=" + name + ", email=" + email + ", phone=" + phone + ", password="
+					+ password + ", preference=" + preference + "]";
 		}
+
 }

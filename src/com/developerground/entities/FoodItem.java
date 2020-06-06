@@ -1,8 +1,14 @@
 package com.developerground.entities;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 
 import org.springframework.stereotype.Component;
 
@@ -10,20 +16,25 @@ import org.springframework.stereotype.Component;
 @Entity(name="food_items")
 public class FoodItem {
 		
+		@ManyToOne(fetch=FetchType.LAZY, cascade=CascadeType.ALL)
+		@JoinColumn(name="Caterer_ID")
+		private Caterer caterer;
+	
 		@Id
-		@Column(name="Food_ID")
+		@GeneratedValue(strategy=GenerationType.IDENTITY)
+		@Column(name="Food_ID", nullable=false, unique=true)
 		private int ID;
 		
-		@Column(name="Name")
+		@Column(name="Name", nullable=false)
 		private String name;
 		
-		@Column(name="Quantity")
+		@Column(name="Quantity", nullable=false)
 		private int quantity;
 
-		@Column(name="Price_In_Rupees")
+		@Column(name="Price_In_Rupees", nullable=false)
 		private int price;
 
-		@Column(name="Rating")
+		@Column(name="Rating", nullable=false)
 		private double rating;
 		
 		public int getID() {
@@ -55,6 +66,12 @@ public class FoodItem {
 		}
 		public void setRating(double rating) {
 			this.rating = rating;
+		}
+		public Caterer getCaterer() {
+			return caterer;
+		}
+		public void setCaterer(Caterer caterer) {
+			this.caterer = caterer;
 		}
 		@Override
 		public String toString() {
