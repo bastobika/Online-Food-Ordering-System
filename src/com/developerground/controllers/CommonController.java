@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.SessionAttributes;
 
 import com.developerground.entities.Caterer;
 import com.developerground.entities.Customer;
@@ -17,6 +18,7 @@ import com.developerground.services.CommonService;
 
 @Controller
 @RequestMapping("/common")
+@SessionAttributes({"name","email","preference"})
 public class CommonController {
 	
 		@Autowired
@@ -38,8 +40,9 @@ public class CommonController {
 		}
 		
 		@GetMapping("/welcome")
-		public String Welcome(@ModelAttribute("customerStatus")String status,Model model) {
-			model.addAttribute("customerStatus", status);
+		public String Welcome(@ModelAttribute("customerStatus")String customerStatus, @ModelAttribute("catererStatus")String catererStatus, Model model) {
+			model.addAttribute("customerStatus", customerStatus);
+			model.addAttribute("catererStatus", catererStatus);
 			return "welcome";
 		}
 		
@@ -50,16 +53,16 @@ public class CommonController {
 			model.addAttribute("loginFlag", loginFlag);
 			model.addAttribute("email", email);
 			if ( loginFlag.equalsIgnoreCase("success")) {
+				model.addAttribute("name", map.get("name"));
 				if(map.get("userType").equalsIgnoreCase("Caterer")) {
 					String status = map.get("status");
-					model.addAttribute("status", status);			
-					model.addAttribute("catererName", map.get("name"));
+					model.addAttribute("status", status);
 					if (status.equalsIgnoreCase("Pending") || status.equalsIgnoreCase("Denied")) {
 						return "welcome";
 					}
 					return "catererHome";
 				}else if(map.get("userType").equalsIgnoreCase("Customer")) {
-					model.addAttribute("customerName", map.get("name"));
+					model.addAttribute("preference", map.get("preference"));
 					return "customerHome";
 				}
 			} 

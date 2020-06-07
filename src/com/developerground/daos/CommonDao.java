@@ -21,7 +21,7 @@ public class CommonDao {
 		private SessionFactory sessionFactory;
 
 		@Transactional
-		public Map<String,String> authenticate(String email,String password) {
+		public Map<String, String> authenticate(String email,String password) {
 			String loginFlag = null;
 			HashMap<String,String> map = new HashMap<String,String>();
 			Session session = sessionFactory.getCurrentSession();
@@ -37,7 +37,7 @@ public class CommonDao {
 				if(caterers.get(0).getPassword().equalsIgnoreCase(password)) {
 					loginFlag = "success";
 					map.put("name" , caterers.get(0).getName());
-					map.put("status",caterers.get(0).getStatus());
+					map.put("status", caterers.get(0).getStatus());
 					map.put("userType","Caterer");
 				}else {
 					loginFlag = "failed";
@@ -46,6 +46,7 @@ public class CommonDao {
 				if(customers.get(0).getPassword().equalsIgnoreCase(password)) {
 					loginFlag = "success";
 					map.put("name" , customers.get(0).getName());
+					map.put("preference" , customers.get(0).getPreference());
 					map.put("userType","Customer");
 				} else {
 					loginFlag = "failed";

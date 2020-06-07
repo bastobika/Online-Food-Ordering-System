@@ -37,6 +37,16 @@ public class FoodItem {
 		@Column(name="Rating", nullable=false)
 		private double rating;
 		
+		@Column(name="Food_Type", nullable=false )
+		private String foodType;
+		
+		public String getFoodType() {
+			return foodType;
+		}
+		public void setFoodType(String foodType) {
+			this.foodType = foodType;
+		}
+		
 		public int getID() {
 			return ID;
 		}

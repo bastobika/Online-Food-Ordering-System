@@ -9,18 +9,34 @@
 <html>
 <head>
 <meta charset="ISO-8859-1">
-<title>Caterer Sign Up</title>
+<title>Order</title>
 </head>
 <body>
-		<c:if test="${ status == 'duplicateEntry' }" >
-			Email or Phone Number already exists ! Please try with a different email or phone !
-		</c:if>
-		<form:form action="../caterer/signUp" method="POST" modelAttribute="caterer">
-			Name : <form:input path="name"/>
-			Email : <form:input path="email"/>
-			Phone : <form:input path="phone" />
-			Password : <form:input path="password" />
-			<input type="submit" value="Sign Up" />
-		</form:form>
+		<c:choose>
+		<c:when test="${ noFoodItems == false }">
+			<table>
+				<tr>
+					<th>Caterer Name</th>
+					<th> Caterer Rating </th>
+					<th> Food Item </th>
+					<th> Quantity </th>
+					<th> Price </th>
+					<th> Food Item Rating </th>
+				</tr>
+				
+				<c:forEach var="foodItem" items="${foodItems }">
+					<tr>
+
+						<td> 
+
+						</td>
+					</tr>
+				</c:forEach>
+			</table>
+		</c:when>
+		<c:when test="${ noFoodItems == true }" >
+			No Food Items Available :( 
+		</c:when>	
+	</c:choose>
 </body>
 </html>

@@ -22,7 +22,6 @@
 					<th> Name </th>
 					<th> Email </th>
 					<th> Phone </th>
-					<th> Veg/Non-Veg </th>
 				</tr>
 				
 				<c:forEach var="caterer" items="${catererRequests }">
@@ -30,7 +29,6 @@
 						<td> ${caterer.name } </td>
 						<td> ${caterer.email } </td>
 						<td> ${caterer.phone } </td>
-						<td> ${caterer.foodType } </td>
 						<td> 
 							<form action="updateStatus" method="GET" >
 								<input type="hidden" name="catererID" value="${caterer.ID }" />

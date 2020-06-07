@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.SessionAttributes;
 
 import com.developerground.entities.Caterer;
 import com.developerground.entities.FoodItem;
@@ -17,6 +18,7 @@ import com.developerground.services.CatererService;
 
 @Controller
 @RequestMapping("/caterer")
+@SessionAttributes({"name","email"})
 public class CatererController {
 	
 		@Autowired
@@ -26,11 +28,11 @@ public class CatererController {
 		public String signUp(@ModelAttribute("caterer")Caterer caterer, Model model) {
 
 			String status = catererService.signUp(caterer);
-			model.addAttribute("status", status);
+			model.addAttribute("catererStatus", status);
 			if( status.equalsIgnoreCase("duplicateEntry")) {
 				return "catererSignUp";
 			}
-			return "welcome";
+			return "redirect:../common/welcome";
 		}
 		
 		@GetMapping("/addFood")
@@ -40,8 +42,7 @@ public class CatererController {
 		}
 		
 		@PostMapping("/addFoodItem")
-		public String addFoodItem(@ModelAttribute("foodItem")FoodItem foodItem, @RequestParam("email")String email, Model model) {
-			System.out.println(email);
+		public String addFoodItem(@ModelAttribute("foodItem")FoodItem foodItem, @ModelAttribute("email")String email, Model model) {
 			String additionStatus = catererService.addFoodItem(foodItem,email);
 			model.addAttribute("additionStatus", additionStatus);
 			if (additionStatus.equalsIgnoreCase("success")) {
@@ -50,7 +51,7 @@ public class CatererController {
 			return "addFood";
 		}
 		
-		@PostMapping("viewFoodItems")
+		@PostMapping("/viewFoodItems")
 		public String viewFoodItems(Model model) {
 			List<FoodItem> foodItems = catererService.viewFoodItems();
 			model.addAttribute("foodItems", foodItems);

@@ -13,7 +13,7 @@ public class CommonService {
 		@Autowired
 		private CommonDao commonDao;
 		
-		public Map<String,String> authenticate(String email,String password){
+		public Map<String, String> authenticate(String email,String password){
 			return commonDao.authenticate(email, password);		
 		}
 }

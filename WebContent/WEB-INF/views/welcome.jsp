@@ -14,7 +14,7 @@
 </head>
 <body>
 	<a href="signUpOptions">Sign Up</a>  
-	<a href="admin/login">Admin </a> 
+	<a href="../admin/login">Admin </a> 
 	LOGIN !
 	<br>
 	
@@ -39,6 +39,9 @@
 		 </c:when>
 		 <c:when test="${ customerStatus eq 'success' }" >
 		 	Sign Up successful ! You can login now !
+		 </c:when>
+		  <c:when test="${ catererStatus eq 'Pending' }" >
+		 	Sign Up successful ! Your account will be created after Admin approval !
 		 </c:when>
 	</c:choose>
 	

@@ -8,6 +8,11 @@
 </head>
 <body>
 	Welcome  ${ customerName }  !
+	
+	<a href="../customer/orderFood"> Order Food </a>
+	<br>
+	<a href=""> View Orders </a>
+	<a href=""> Update Information </a>
 
 	
 </body>

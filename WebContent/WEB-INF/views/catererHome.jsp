@@ -7,7 +7,7 @@
 <title>Home</title>
 </head>
 <body>
-	Welcome  ${ catererName }  !
+	Welcome  ${ name }  !
 	<br>
 	<a href="../../caterer/viewFood"> View Food Items </a>
 	<br>

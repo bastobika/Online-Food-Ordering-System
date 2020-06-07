@@ -1,5 +1,6 @@
 package com.developerground.daos;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.hibernate.Session;
@@ -22,7 +23,7 @@ public class CatererDao {
 		@Transactional
 		public String signUp(Caterer caterer) {
 			
-			String status = null;
+			String status = "false";
 			Session session = sessionFactory.getCurrentSession();
 			Query<Caterer> catererQuery = session.createQuery("from caterers where Email=:email or Phone=:phone", Caterer.class);
 			catererQuery.setParameter("email",caterer.getEmail());
@@ -31,14 +32,15 @@ public class CatererDao {
 			customerQuery.setParameter("email",caterer.getEmail());
 			customerQuery.setParameter("phone", caterer.getPhone());
 			if( catererQuery.getResultList().isEmpty() && customerQuery.getResultList().isEmpty()) {
-				status = "pending";
+				status = "Pending";
 				session.save(caterer);
 			}else {
 				status = "duplicateEntry";
 			}
 			return status;
 		}
-
+		
+		@Transactional
 		public String addFoodItem(FoodItem foodItem, String email) {
 			String additionStatus = "failed";
 			Session session = sessionFactory.getCurrentSession();
@@ -51,11 +53,13 @@ public class CatererDao {
 			}
 			return additionStatus;
 		}
-
+		
+		@Transactional
 		public List<FoodItem> viewFoodItems() {
 			Session session = sessionFactory.getCurrentSession();
 			Query<FoodItem> query = session.createQuery("from food_items", FoodItem.class);
 			List<FoodItem> foodItems = query.getResultList();
 			return foodItems;
 		}
+
 }

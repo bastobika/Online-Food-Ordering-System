@@ -10,6 +10,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 
+import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
 @Component("caterer")
@@ -35,9 +36,6 @@ public class Caterer {
 		
 		@Column(name="Password", nullable=false)
 		private String password;
-		
-		@Column(name="Food_Type", nullable=false )
-		private String foodType;
 		
 		@Column(name="Rating", nullable=false )
 		private double rating;
@@ -75,12 +73,6 @@ public class Caterer {
 		public void setPassword(String password) {
 			this.password = password;
 		}
-		public String getFoodType() {
-			return foodType;
-		}
-		public void setFoodType(String foodType) {
-			this.foodType = foodType;
-		}
 		public double getRating() {
 			return rating;
 		}
@@ -102,6 +94,6 @@ public class Caterer {
 		@Override
 		public String toString() {
 			return "Caterer [ID=" + ID + ", name=" + name + ", email=" + email + ", phone=" + phone + ", password="
-					+ password + ", foodType=" + foodType + ", rating=" + rating + ", status=" + status + "]";
+					+ password + ", rating=" + rating + ", status=" + status + "]";
 		}
 }

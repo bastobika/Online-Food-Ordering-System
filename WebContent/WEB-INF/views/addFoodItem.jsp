@@ -20,6 +20,11 @@
 			Item Name : <form:input path="name"/>
 			Quantity : <form:input path="quantity" />
 			Price (in Rupees) : <form:input path="price" />
+			Food Type : <form:select path="foodType">
+																	<form:option value="Veg"> Veg </form:option>
+																	<form:option value="NonVeg"> Non-Veg </form:option>
+																	<form:option value="Neutral"> Neutral </form:option>
+															   </form:select>
 			<input type="submit" value="Add Food Item" />
 		</form:form>
 

@@ -1,5 +1,8 @@
 package com.developerground.daos;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.query.Query;
@@ -9,6 +12,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.developerground.entities.Caterer;
 import com.developerground.entities.Customer;
+import com.developerground.entities.FoodItem;
 
 @Repository
 public class CustomerDao {
@@ -34,5 +38,15 @@ public class CustomerDao {
 			status = "duplicateEntry";
 		}
 		return status;
+	}
+	
+	@Transactional
+	public List<Object> orderFood(String preference) {
+		Session session = sessionFactory.getCurrentSession();
+		Query<Object> query = session.createQuery("select a.name as catererName, a.rating as catererRating, b.ID , b.name as FoodName, b.quantity, b.price, b.rating as FoodRating from caterers a,food_items b where b.foodType in (:preference, 'Neutral') and b.ID = a.ID", Object.class);
+		query.setParameter("preference", preference);
+		List<Object> foodItems = query.getResultList();
+		System.out.println( query.getResultList().get(0));
+		return foodItems;
 	}
 }
