@@ -19,7 +19,7 @@ public class CustomerService {
 		return customerDao.signUp(customer);
 	}
 
-	public List<Object> orderFood(String preference) {
-		return customerDao.orderFood(preference);
+	public List<Object[]> viewFood(String preference) {
+		return customerDao.viewFood(preference);
 	}
 }

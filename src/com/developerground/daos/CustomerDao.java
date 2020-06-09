@@ -41,12 +41,16 @@ public class CustomerDao {
 	}
 	
 	@Transactional
-	public List<Object> orderFood(String preference) {
+	public List<Object[]> viewFood(String preference) {
 		Session session = sessionFactory.getCurrentSession();
-		Query<Object> query = session.createQuery("select a.name as catererName, a.rating as catererRating, b.ID , b.name as FoodName, b.quantity, b.price, b.rating as FoodRating from caterers a,food_items b where b.foodType in (:preference, 'Neutral') and b.ID = a.ID", Object.class);
-		query.setParameter("preference", preference);
-		List<Object> foodItems = query.getResultList();
-		System.out.println( query.getResultList().get(0));
+		Query<Object[]> query = null;
+		if(preference.equalsIgnoreCase("Both")) {
+			query = session.createQuery("from caterers a,food_items b where b.ID = a.ID", Object[].class);
+		}else {
+			query = session.createQuery("from caterers a,food_items b where b.foodType in (:preference, 'Neutral') and b.ID = a.ID", Object[].class);		
+			query.setParameter("preference", preference);
+		}
+		List<Object[]> foodItems = query.getResultList();
 		return foodItems;
 	}
 }
