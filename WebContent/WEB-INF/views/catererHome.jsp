@@ -9,7 +9,7 @@
 <body>
 	Welcome  ${ name }  !
 	<br>
-	<a href="../../caterer/viewFood"> View Food Items </a>
+	<a href="../caterer/viewFoodItems"> View Food Items </a>
 	<br>
 	<a href=""> View Orders </a>
 	<br>

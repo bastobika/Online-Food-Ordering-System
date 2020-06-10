@@ -25,10 +25,10 @@ public class CommonDao {
 			String loginFlag = null;
 			HashMap<String,String> map = new HashMap<String,String>();
 			Session session = sessionFactory.getCurrentSession();
-			Query<Caterer> catererQuery = session.createQuery("from caterers where email=:email", Caterer.class);
+			Query<Caterer> catererQuery = session.createQuery("from caterer where email=:email", Caterer.class);
 			catererQuery.setParameter("email", email);
 			List<Caterer> caterers = catererQuery.getResultList();
-			Query<Customer> customerQuery = session.createQuery("from customers where email=:email", Customer.class);
+			Query<Customer> customerQuery = session.createQuery("from customer where email=:email", Customer.class);
 			customerQuery.setParameter("email", email);
 			List<Customer> customers = customerQuery.getResultList(); 
 			if( caterers.isEmpty() && customers.isEmpty()) {
@@ -37,6 +37,7 @@ public class CommonDao {
 				if(caterers.get(0).getPassword().equalsIgnoreCase(password)) {
 					loginFlag = "success";
 					map.put("name" , caterers.get(0).getName());
+					map.put("id" , Integer.toString(caterers.get(0).getID()));
 					map.put("status", caterers.get(0).getStatus());
 					map.put("userType","Caterer");
 				}else {
@@ -46,6 +47,7 @@ public class CommonDao {
 				if(customers.get(0).getPassword().equalsIgnoreCase(password)) {
 					loginFlag = "success";
 					map.put("name" , customers.get(0).getName());
+					map.put("id" , Integer.toString(customers.get(0).getID()));
 					map.put("preference" , customers.get(0).getPreference());
 					map.put("userType","Customer");
 				} else {

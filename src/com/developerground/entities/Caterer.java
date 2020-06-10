@@ -1,24 +1,22 @@
 package com.developerground.entities;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
+import javax.persistence.Table;
 
-import org.springframework.context.annotation.Scope;
-import org.springframework.stereotype.Component;
-
-@Component("caterer")
-@Entity(name="caterers")
+@Entity(name="caterer")
+@Table(name="caterers")
 public class Caterer {
-	
-		@OneToMany(cascade= {CascadeType.DETACH, CascadeType.MERGE,CascadeType.PERSIST,CascadeType.REFRESH}, mappedBy="caterer")
-		private List<FoodItem> foodItems;
 	
 		@Id
 		@GeneratedValue(strategy=GenerationType.IDENTITY)
@@ -42,6 +40,9 @@ public class Caterer {
 		
 		@Column(name="Status", nullable=false )
 		private String status;
+		
+		@OneToMany(cascade= CascadeType.ALL, fetch=FetchType.LAZY,mappedBy="caterer")
+		private List<FoodItem> foodItems;
 		
 		public int getID() {
 			return ID;
@@ -91,9 +92,16 @@ public class Caterer {
 		public void setFoodItems(List<FoodItem> foodItems) {
 			this.foodItems = foodItems;
 		}
+		public void addFoodItem(FoodItem foodItem) {
+			if(this.foodItems.isEmpty()) {
+				this.foodItems = new ArrayList<FoodItem>();
+			}
+			foodItems.add(foodItem);
+		}
+		
 		@Override
 		public String toString() {
-			return "Caterer [ID=" + ID + ", name=" + name + ", email=" + email + ", phone=" + phone + ", password="
-					+ password + ", rating=" + rating + ", status=" + status + "]";
+			return "Caterer [foodItems=" + foodItems + ", ID=" + ID + ", name=" + name + ", email=" + email + ", phone="
+					+ phone + ", password=" + password + ", rating=" + rating + ", status=" + status + "]";
 		}
 }

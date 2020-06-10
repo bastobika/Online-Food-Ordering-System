@@ -34,7 +34,7 @@
 						<td> ${foodItem[1].rating } </td>
 						<td> 
 								<form action="addToCart" method="POST" >
-									<input type="hidden" name="foodItem" value="${foodItem[1] }" />
+									<input type="hidden" name="foodID" value="${foodItem[1].ID }" />
 									Add Units : <input type="text" name="units" />
 									<input type="submit" value="Add To Cart" />
 								</form>

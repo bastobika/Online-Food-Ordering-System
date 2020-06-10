@@ -1,17 +1,24 @@
 package com.developerground.entities;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-
+import javax.persistence.JoinColumn;
+import javax.persistence.OneToMany;
+import javax.persistence.Table;
 
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
-@Component("customer")
-@Entity(name="customers")
+@Entity(name="customer")
+@Table(name="customers")
 public class Customer {
 
 		@Id
@@ -33,6 +40,10 @@ public class Customer {
 		
 		@Column(name="Preference", nullable=false)
 		private String preference;
+		
+		@OneToMany(fetch=FetchType.LAZY,cascade=CascadeType.ALL)
+		@JoinColumn(name="Customer_ID")
+		private List<CartItem> cartItems;   //If we delete a customer, we delete all her/his cart items
 
 		
 		public int getID() {
@@ -70,6 +81,29 @@ public class Customer {
 		}
 		public void setPreference(String preference) {
 			this.preference = preference;
+		}
+		public List<CartItem> getCartItems() {
+			return cartItems;
+		}
+		public void setCartItems(List<CartItem> cartItems) {
+			this.cartItems = cartItems;
+		}
+		public void addToCart(FoodItem foodItem, int units) {
+			boolean added = false;
+			if(cartItems.isEmpty()) {
+				cartItems = new ArrayList<CartItem>();
+			}
+			for (CartItem cartItem : cartItems) {
+				if (cartItem.getFoodItem().getID() == foodItem.getID()) {
+					cartItem.setUnits(cartItem.getUnits() + units);
+					added = true;
+					break;
+				}
+			}
+			if (!added) {
+				CartItem cartItem = new CartItem(foodItem,units);
+				cartItems.add(cartItem);
+			}
 		}
 		@Override
 		public String toString() {

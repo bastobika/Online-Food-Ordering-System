@@ -13,13 +13,14 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.SessionAttributes;
 
+import com.developerground.entities.CartItem;
 import com.developerground.entities.Customer;
 import com.developerground.entities.FoodItem;
 import com.developerground.services.CustomerService;
 
 @Controller
 @RequestMapping("/customer")
-@SessionAttributes({"name","email","preference","cart"})
+@SessionAttributes({"name","email","preference","id"})
 public class CustomerController {
 
 	@Autowired
@@ -37,26 +38,34 @@ public class CustomerController {
 	}
 	
 	@GetMapping("/orderFood")
-	public String orderPage( @ModelAttribute("preference")String preference,@ModelAttribute("cart")HashMap<FoodItem,Integer> cart,Model model) {
+	public String orderPage( @ModelAttribute("preference")String preference,@ModelAttribute("id")String customerID, @ModelAttribute("addToCartFlag")String addToCartFlag, Model model) {
 		
-		System.out.println(cart.getClass());
-		List<Object[]> foodItems = customerService.viewFood(preference);
-		for(int j=0;j<foodItems.size();j++) {
-			Object temp = foodItems.get(j)[1];
-			if (cart.containsKey(temp)) {
-				foodItems.remove(temp);
-		}
-		}
+		List<Object[]> foodItems = customerService.viewFood(preference,customerID);
 		model.addAttribute("foodItems", foodItems);
 		model.addAttribute("noFoodItems", foodItems.isEmpty());
+		model.addAttribute("addToCartFlag", addToCartFlag);
 		return "viewFoodForOrder";
 	}
 	
 	@PostMapping("/addToCart")
-	public String addToCart( @ModelAttribute("cart")HashMap<FoodItem,Integer> cart,@RequestParam("units")String units,@RequestParam("foodItem")FoodItem foodItem) {
+	public String addToCart(@ModelAttribute("id")String customerID, @RequestParam("units")String units,@RequestParam("foodID")String foodID,Model model) {
 
-		cart.put(foodItem, Integer.parseInt(units));
+		customerService.addToCart(foodID,customerID,units);
+		model.addAttribute("addToCartFlag","added");
 		return "redirect:orderFood";
+	}
+	
+	@GetMapping("/viewCart")
+	public String viewCart(@ModelAttribute("id")String customerID,Model model) {
+		List<CartItem> cartItems = customerService.viewCart(customerID);
+		model.addAttribute("cartItems",cartItems);
+		model.addAttribute("noCartItems", cartItems.isEmpty());
+		return "viewCart";
+	}
+	
+	@PostMapping("/placeOrder")
+	public String placeOrder(@ModelAttribute("id")String customerID,Model model) {
+		return "viewOrders";
 	}
 	
 }

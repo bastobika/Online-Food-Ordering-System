@@ -5,11 +5,12 @@ import java.io.Serializable;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.Table;
 
 import org.springframework.stereotype.Component;
 
-@Component
 @Entity(name="admin")
+@Table(name="admin")
 public class Admin implements Serializable {
 		
 	/**

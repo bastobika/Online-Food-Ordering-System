@@ -18,7 +18,7 @@ import com.developerground.services.CatererService;
 
 @Controller
 @RequestMapping("/caterer")
-@SessionAttributes({"name","email"})
+@SessionAttributes({"name","email","id"})
 public class CatererController {
 	
 		@Autowired
@@ -46,14 +46,14 @@ public class CatererController {
 			String additionStatus = catererService.addFoodItem(foodItem,email);
 			model.addAttribute("additionStatus", additionStatus);
 			if (additionStatus.equalsIgnoreCase("success")) {
-				return "viewFoodItems";
+				return "redirect:viewFoodItems";
 			}
 			return "addFood";
 		}
 		
-		@PostMapping("/viewFoodItems")
-		public String viewFoodItems(Model model) {
-			List<FoodItem> foodItems = catererService.viewFoodItems();
+		@GetMapping("/viewFoodItems")
+		public String viewFoodItems(@ModelAttribute("id")String catererID,Model model) {
+			List<FoodItem> foodItems = catererService.viewFoodItems(catererID);
 			model.addAttribute("foodItems", foodItems);
 			model.addAttribute("noFoodItems",foodItems.isEmpty());
 			return "viewFoodItems";

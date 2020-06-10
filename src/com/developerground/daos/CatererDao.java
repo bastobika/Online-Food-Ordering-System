@@ -25,10 +25,10 @@ public class CatererDao {
 			
 			String status = "false";
 			Session session = sessionFactory.getCurrentSession();
-			Query<Caterer> catererQuery = session.createQuery("from caterers where Email=:email or Phone=:phone", Caterer.class);
+			Query<Caterer> catererQuery = session.createQuery("from caterer where Email=:email or Phone=:phone", Caterer.class);
 			catererQuery.setParameter("email",caterer.getEmail());
 			catererQuery.setParameter("phone", caterer.getPhone());
-			Query<Customer> customerQuery = session.createQuery("from customers where Email=:email or Phone=:phone", Customer.class);
+			Query<Customer> customerQuery = session.createQuery("from customer where Email=:email or Phone=:phone", Customer.class);
 			customerQuery.setParameter("email",caterer.getEmail());
 			customerQuery.setParameter("phone", caterer.getPhone());
 			if( catererQuery.getResultList().isEmpty() && customerQuery.getResultList().isEmpty()) {
@@ -44,20 +44,22 @@ public class CatererDao {
 		public String addFoodItem(FoodItem foodItem, String email) {
 			String additionStatus = "failed";
 			Session session = sessionFactory.getCurrentSession();
-			Query<Caterer> query = session.createQuery("from caterers where Email=:email", Caterer.class);
+			Query<Caterer> query = session.createQuery("from caterer where Email=:email", Caterer.class);
 			query.setParameter("email",email);
 			if( !query.getResultList().isEmpty() ) {
-				foodItem.setCaterer(query.getResultList().get(0));
-				session.save(foodItem);
-				additionStatus = "success";
+					Caterer caterer = query.getResultList().get(0);
+					caterer.addFoodItem(foodItem);
+					session.save(caterer);
+					additionStatus = "success";
 			}
 			return additionStatus;
 		}
 		
 		@Transactional
-		public List<FoodItem> viewFoodItems() {
+		public List<FoodItem> viewFoodItems(String catererID) {
 			Session session = sessionFactory.getCurrentSession();
-			Query<FoodItem> query = session.createQuery("from food_items", FoodItem.class);
+			Query<FoodItem> query = session.createQuery("from food_item where Caterer_ID=:catererID", FoodItem.class);
+			query.setParameter("catererID", catererID);
 			List<FoodItem> foodItems = query.getResultList();
 			return foodItems;
 		}

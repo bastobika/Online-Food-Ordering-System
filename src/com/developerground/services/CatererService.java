@@ -26,8 +26,8 @@ public class CatererService {
 			return catererDao.addFoodItem(foodItem,email);
 		}
 
-		public List<FoodItem> viewFoodItems() {
-			return catererDao.viewFoodItems();
+		public List<FoodItem> viewFoodItems(String catererID) {
+			return catererDao.viewFoodItems(catererID);
 		}
 
 }

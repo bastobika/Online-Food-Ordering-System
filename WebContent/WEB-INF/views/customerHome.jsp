@@ -11,6 +11,7 @@
 	
 	<a href="../customer/orderFood"> Order Food </a>
 	<br>
+	<a href="../customer/viewCart"> View Cart</a>
 	<a href=""> View Orders </a>
 	<a href=""> Update Information </a>
 

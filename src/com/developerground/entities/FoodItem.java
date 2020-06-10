@@ -1,5 +1,7 @@
 package com.developerground.entities;
 
+import java.util.List;
+
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -9,16 +11,11 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.Table;
 
-import org.springframework.stereotype.Component;
-
-@Component
-@Entity(name="food_items")
+@Entity(name="food_item")
+@Table(name="food_items")
 public class FoodItem {
-		
-		@ManyToOne(fetch=FetchType.LAZY, cascade=CascadeType.ALL)
-		@JoinColumn(name="Caterer_ID")
-		private Caterer caterer;
 	
 		@Id
 		@GeneratedValue(strategy=GenerationType.IDENTITY)
@@ -39,6 +36,10 @@ public class FoodItem {
 		
 		@Column(name="Food_Type", nullable=false )
 		private String foodType;
+		
+		@ManyToOne(cascade= {CascadeType.DETACH,CascadeType.MERGE,CascadeType.PERSIST,CascadeType.REFRESH})
+		@JoinColumn(name="Caterer_ID", referencedColumnName="Caterer_ID")
+		private Caterer caterer;
 		
 		public String getFoodType() {
 			return foodType;

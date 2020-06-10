@@ -1,7 +1,6 @@
 package com.developerground.controllers;
 
 import java.util.Map;
-import java.util.HashMap;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -20,7 +19,7 @@ import com.developerground.services.CommonService;
 
 @Controller
 @RequestMapping("/common")
-@SessionAttributes({"name","email","preference","cart"})
+@SessionAttributes({"name","email","preference","id"})
 public class CommonController {
 	
 		@Autowired
@@ -56,6 +55,7 @@ public class CommonController {
 			model.addAttribute("email", email);
 			if ( loginFlag.equalsIgnoreCase("success")) {
 				model.addAttribute("name", map.get("name"));
+				model.addAttribute("id", map.get("id"));
 				if(map.get("userType").equalsIgnoreCase("Caterer")) {
 					String status = map.get("status");
 					model.addAttribute("status", status);
@@ -65,7 +65,6 @@ public class CommonController {
 					return "catererHome";
 				}else if(map.get("userType").equalsIgnoreCase("Customer")) {
 					model.addAttribute("preference", map.get("preference"));
-					model.addAttribute("cart", new HashMap<FoodItem,Integer>());
 					return "customerHome";
 				}
 			} 
