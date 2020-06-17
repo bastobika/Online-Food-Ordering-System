@@ -11,11 +11,11 @@
 	<br>
 	<a href="../caterer/viewFoodItems"> View Food Items </a>
 	<br>
-	<a href=""> View Orders </a>
+	<a href="../caterer/viewOrders"> View Orders </a>
 	<br>
 	<a href="../caterer/addFood"> Add Food Item </a>
 	<br>
-	<a href=""> Update Information </a>
+	<a href="../caterer/catererDetails"> View/Update Information </a>
 	
 </body>
 </html>

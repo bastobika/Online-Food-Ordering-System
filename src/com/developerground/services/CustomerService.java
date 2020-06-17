@@ -30,4 +30,34 @@ public class CustomerService {
 	public List<CartItem> viewCart(String customerID) {
 		return customerDao.viewCart(Integer.parseInt(customerID));
 	}
+
+	public boolean placeOrder(String customerID) {
+		List<CartItem> cartItems = viewCart(customerID);
+		int firstCatererID = cartItems.get(0).getFoodItem().getCaterer().getID();
+		for(CartItem cartItem : cartItems) {
+			if(cartItem.getFoodItem().getCaterer().getID() != firstCatererID)
+				return false;
+		}
+		return customerDao.placeOrder(cartItems);
+	}
+
+	public List<Object[]> viewOrders(String customerID) {
+		return customerDao.viewOrders(customerID);
+	}
+
+	public void deleteCartItem(String cartItemID) {
+		customerDao.deleteCartItem(Integer.parseInt(cartItemID));
+	}
+
+	public void deleteCustomer(String email) {
+		customerDao.deleteCustomer(email);
+	}
+
+	public void updateCustomerInfo(Customer customer) {
+		customerDao.updateCustomerInfo(customer);
+	}
+
+	public Object getCustomer(String customerID) {
+		return customerDao.getCustomer(Integer.parseInt(customerID));
+	}
 }

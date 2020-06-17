@@ -1,7 +1,5 @@
 package com.developerground.entities;
 
-import java.util.List;
-
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -37,7 +35,7 @@ public class FoodItem {
 		@Column(name="Food_Type", nullable=false )
 		private String foodType;
 		
-		@ManyToOne(cascade= {CascadeType.DETACH,CascadeType.MERGE,CascadeType.PERSIST,CascadeType.REFRESH})
+		@ManyToOne(cascade= {CascadeType.DETACH,CascadeType.MERGE,CascadeType.PERSIST,CascadeType.REFRESH},fetch=FetchType.LAZY)
 		@JoinColumn(name="Caterer_ID", referencedColumnName="Caterer_ID")
 		private Caterer caterer;
 		
@@ -51,8 +49,8 @@ public class FoodItem {
 		public int getID() {
 			return ID;
 		}
-		public void setID(int iD) {
-			ID = iD;
+		public void setID(int ID) {
+			this.ID = ID;
 		}
 		public String getName() {
 			return name;

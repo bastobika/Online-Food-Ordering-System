@@ -49,6 +49,7 @@ public class CatererDao {
 			if( !query.getResultList().isEmpty() ) {
 					Caterer caterer = query.getResultList().get(0);
 					caterer.addFoodItem(foodItem);
+					foodItem.setCaterer(caterer);
 					session.save(caterer);
 					additionStatus = "success";
 			}
@@ -59,9 +60,58 @@ public class CatererDao {
 		public List<FoodItem> viewFoodItems(String catererID) {
 			Session session = sessionFactory.getCurrentSession();
 			Query<FoodItem> query = session.createQuery("from food_item where Caterer_ID=:catererID", FoodItem.class);
-			query.setParameter("catererID", catererID);
+			query.setParameter("catererID", Integer.parseInt(catererID));
 			List<FoodItem> foodItems = query.getResultList();
 			return foodItems;
+		}
+
+		@Transactional
+		public FoodItem updateFood(int FoodItemID) {
+			Session session = sessionFactory.getCurrentSession();
+			Query<FoodItem> query = session.createQuery("from food_item where ID=:foodItemID", FoodItem.class);
+			query.setParameter("foodItemID", FoodItemID);
+			FoodItem foodItem = query.getSingleResult();
+			return foodItem;
+		}
+
+		@Transactional
+		public String updateFoodItem(FoodItem foodItem,String email) {
+			Session session = sessionFactory.getCurrentSession();
+	    	Query<Caterer> query = session.createQuery("from caterer where Email=:email", Caterer.class);
+			query.setParameter("email",email);
+			foodItem.setCaterer( query.getSingleResult()); 
+			session.update(foodItem);
+			return "success";
+		}
+
+		@Transactional
+		public void deleteFood(int foodItemID) {
+			Session session = sessionFactory.getCurrentSession();
+			Query<?> query = session.createQuery("delete from food_item where ID=:foodItemID");
+			query.setParameter("foodItemID", foodItemID);
+			query.executeUpdate();
+		}
+
+		@Transactional
+		public Caterer getCaterer(int catererID) {
+			Session session = sessionFactory.getCurrentSession();
+			Query<Caterer> query = session.createQuery("from caterer where ID=:catererID",Caterer.class);
+			query.setParameter("catererID", catererID);
+			return query.getSingleResult();
+		}
+
+		@Transactional
+		public void deleteCaterer(String email) {
+			Session session = sessionFactory.getCurrentSession();
+			Query<?> query = session.createQuery("delete from caterer where email=:email");
+			query.setParameter("email", email);
+			query.executeUpdate();
+		}
+
+		@Transactional
+		public void updateCatererInfo(Caterer caterer) {
+			Session session = sessionFactory.getCurrentSession();
+			session.update(caterer);
 		}
 
 }

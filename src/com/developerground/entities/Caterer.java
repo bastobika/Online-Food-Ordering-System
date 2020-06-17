@@ -44,11 +44,23 @@ public class Caterer {
 		@OneToMany(cascade= CascadeType.ALL, fetch=FetchType.LAZY,mappedBy="caterer")
 		private List<FoodItem> foodItems;
 		
+		@OneToMany(fetch=FetchType.LAZY,cascade=CascadeType.ALL,mappedBy="caterer")
+		private List<Order> orders;            
+		
+		public List<Order> getOrders() {
+			return orders;
+		}
+		public void setOrders(List<Order> orders) {
+			this.orders = orders;
+		}
+		public void setRating(double rating) {
+			this.rating = rating;
+		}
 		public int getID() {
 			return ID;
 		}
-		public void setID(int iD) {
-			ID = iD;
+		public void setID(int ID) {
+			this.ID = ID;
 		}
 		public String getName() {
 			return name;
@@ -98,10 +110,15 @@ public class Caterer {
 			}
 			foodItems.add(foodItem);
 		}
-		
+		public void addOrder(Order order) {
+			if(orders.isEmpty()) {
+				orders = new ArrayList<Order>();
+			}
+			orders.add(order);
+		}
 		@Override
 		public String toString() {
-			return "Caterer [foodItems=" + foodItems + ", ID=" + ID + ", name=" + name + ", email=" + email + ", phone="
-					+ phone + ", password=" + password + ", rating=" + rating + ", status=" + status + "]";
+			return "Caterer [ID=" + ID + ", name=" + name + ", email=" + email + ", phone=" + phone + ", password="
+					+ password + ", rating=" + rating + ", status=" + status + "]";
 		}
 }

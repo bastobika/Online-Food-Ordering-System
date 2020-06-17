@@ -30,4 +30,33 @@ public class CatererService {
 			return catererDao.viewFoodItems(catererID);
 		}
 
+		public List<Object[]> viewOrders(String catererID) {
+			// TODO Auto-generated method stub
+			return null;
+		}
+
+		public FoodItem updateFood(String foodItemID) {
+			return catererDao.updateFood(Integer.parseInt(foodItemID));
+		}
+
+		public String updateFoodItem(FoodItem foodItem,String email) {
+			return catererDao.updateFoodItem(foodItem,email);
+		}
+
+		public void deleteFood(String foodItemID) {
+			catererDao.deleteFood(Integer.parseInt(foodItemID));
+		}
+
+		public Caterer getCaterer(String catererID) {
+			return catererDao.getCaterer(Integer.parseInt(catererID));
+		}
+
+		public void deleteCaterer(String email) {
+			catererDao.deleteCaterer(email);
+		}
+
+		public void updateCatererInfo(Caterer caterer) {
+			catererDao.updateCatererInfo(caterer);
+		}
+
 }

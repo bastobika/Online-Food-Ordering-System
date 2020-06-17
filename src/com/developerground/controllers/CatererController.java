@@ -51,11 +51,60 @@ public class CatererController {
 			return "addFood";
 		}
 		
+		@PostMapping("/updateFood")
+		public String updateFood(@RequestParam("foodItemID")String foodItemID,Model model) 
+		{
+			FoodItem foodItem = catererService.updateFood(foodItemID);
+			model.addAttribute("foodItem", foodItem);
+			return "updateFoodItem";
+		}
+		
+		@PostMapping("/updateFoodItem")
+		public String updateFoodItem(@ModelAttribute("foodItem")FoodItem foodItem, @ModelAttribute("email")String email, Model model) {
+			String updateStatus = catererService.updateFoodItem(foodItem,email);
+			model.addAttribute("updateStatus", updateStatus);
+			return "redirect:viewFoodItems";
+		}
+		
+		@PostMapping("/deleteFood")
+		public String deleteFood(@RequestParam("foodItemID")String foodItemID,Model model) 
+		{
+			catererService.deleteFood(foodItemID);
+			model.addAttribute("deleteStatus", "success");
+			return "redirect:viewFoodItems";
+		}
+		
 		@GetMapping("/viewFoodItems")
 		public String viewFoodItems(@ModelAttribute("id")String catererID,Model model) {
 			List<FoodItem> foodItems = catererService.viewFoodItems(catererID);
 			model.addAttribute("foodItems", foodItems);
 			model.addAttribute("noFoodItems",foodItems.isEmpty());
-			return "viewFoodItems";
+			return "viewFoodItem";
+		}
+		
+		@GetMapping("/viewOrders")
+		public String viewOrders(@ModelAttribute("id")String catererID,Model model) {
+				List<Object[]> orders = catererService.viewOrders(catererID);
+				return "viewCustomerOrders";
+		}	
+		
+		@GetMapping("/catererDetails")
+		public String updateInfo(@ModelAttribute("id")String catererID,@ModelAttribute("updateStatus")String updateStatus,Model model) {
+			model.addAttribute("updateStatus", updateStatus);
+			model.addAttribute("caterer",catererService.getCaterer(catererID));
+			return "viewCaterer";
+		}
+		
+		@PostMapping("/updateCatererInfo")
+		public String updateCatererInfo(@ModelAttribute("caterer")Caterer caterer,Model model) {
+			catererService.updateCatererInfo(caterer);
+			model.addAttribute("updateStatus", "success");
+			return "redirect:catererDetails";
+		}
+		
+		@GetMapping("/deleteCaterer")
+		public String deleteCaterer(@ModelAttribute("email")String email) {
+			catererService.deleteCaterer(email);
+			return "redirect:../common/welcome";
 		}
 }

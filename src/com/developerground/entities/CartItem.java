@@ -24,9 +24,13 @@ public class CartItem {
 		@JoinColumn(name="Food_ID")
 		private FoodItem foodItem;            //cascade : If we delete a cart item,we should not delete the foodItem 
 		
+		@ManyToOne(fetch=FetchType.EAGER, cascade={CascadeType.DETACH, CascadeType.MERGE,CascadeType.PERSIST,CascadeType.REFRESH})
+		@JoinColumn(name="Customer_ID", referencedColumnName="Customer_ID")
+		private Customer customer;            //cascade : If we delete a cart item,we should not delete the Customer 
+		
 		@Column(name="Cart_Units",nullable=false)
 		private int units;
-
+		
 		public CartItem() {
 			
 		}
@@ -50,10 +54,23 @@ public class CartItem {
 		public void setUnits(int units) {
 			this.units = units;
 		}
-
+		
+		public int getID() {
+			return ID;
+		}
+		public void setID(int iD) {
+			ID = iD;
+		}
+		public Customer getCustomer() {
+			return customer;
+		}
+		public void setCustomer(Customer customer) {
+			this.customer = customer;
+		}
 		@Override
 		public String toString() {
-			return "CartItem [foodItem=" + foodItem + ", units=" + units + "]";
+			return "CartItem [ID=" + ID + ", foodItem=" + foodItem + ", customer=" + customer + ", units=" + units
+					+ "]";
 		}
 		
 }

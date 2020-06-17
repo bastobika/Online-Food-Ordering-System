@@ -41,9 +41,11 @@ public class Customer {
 		@Column(name="Preference", nullable=false)
 		private String preference;
 		
-		@OneToMany(fetch=FetchType.LAZY,cascade=CascadeType.ALL)
-		@JoinColumn(name="Customer_ID")
+		@OneToMany(fetch=FetchType.LAZY,cascade=CascadeType.ALL,mappedBy="customer")
 		private List<CartItem> cartItems;   //If we delete a customer, we delete all her/his cart items
+		
+		@OneToMany(fetch=FetchType.LAZY,cascade=CascadeType.ALL,mappedBy="customer")
+		private List<Order> orders;            
 
 		
 		public int getID() {
@@ -102,8 +104,22 @@ public class Customer {
 			}
 			if (!added) {
 				CartItem cartItem = new CartItem(foodItem,units);
+				cartItem.setCustomer(this);
 				cartItems.add(cartItem);
 			}
+		}
+		public List<Order> getOrders() {
+			return orders;
+		}
+		public void setOrders(List<Order> orders) {
+			this.orders = orders;
+		}
+		
+		public void addOrder(Order order) {
+			if(orders.isEmpty()) {
+				orders = new ArrayList<Order>();
+			}
+			orders.add(order);
 		}
 		@Override
 		public String toString() {

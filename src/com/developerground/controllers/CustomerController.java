@@ -14,8 +14,10 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.SessionAttributes;
 
 import com.developerground.entities.CartItem;
+import com.developerground.entities.Caterer;
 import com.developerground.entities.Customer;
 import com.developerground.entities.FoodItem;
+import com.developerground.entities.Order;
 import com.developerground.services.CustomerService;
 
 @Controller
@@ -56,16 +58,65 @@ public class CustomerController {
 	}
 	
 	@GetMapping("/viewCart")
-	public String viewCart(@ModelAttribute("id")String customerID,Model model) {
+	public String viewCart(@ModelAttribute("id")String customerID,@ModelAttribute("placedOrder")String placedOrder, Model model) {
 		List<CartItem> cartItems = customerService.viewCart(customerID);
 		model.addAttribute("cartItems",cartItems);
+		int sum = 0;
+		for (CartItem cartItem : cartItems) {
+			sum += cartItem.getFoodItem().getPrice() * cartItem.getUnits();
+		}
+		model.addAttribute("orderTotal",sum);
 		model.addAttribute("noCartItems", cartItems.isEmpty());
-		return "viewCart";
+		model.addAttribute("placedOrder", placedOrder);
+		return "viewUserCart";
 	}
 	
 	@PostMapping("/placeOrder")
 	public String placeOrder(@ModelAttribute("id")String customerID,Model model) {
-		return "viewOrders";
+		if( !customerService.placeOrder(customerID)) {
+			model.addAttribute("placedOrder", "notPlaced");
+			return "redirect:viewCart";
+		}
+		else {
+			model.addAttribute("placedOrder", "placed");
+			return "redirect:viewOrders";
+		}	
+	}
+	
+	@GetMapping("/viewOrders")
+	public String viewOrders(@ModelAttribute("id")String customerID, @ModelAttribute("placedOrder")String placedOrder,Model model) {
+		List<Object[]> orders = customerService.viewOrders(customerID);
+			System.out.println(orders);
+			model.addAttribute("placedOrder", placedOrder);
+			model.addAttribute("orders", orders);
+			model.addAttribute("noOrders", orders.isEmpty());
+			return "viewCustomerOrders";
+	}	
+	
+	@PostMapping("/deleteCartItem")
+	public String deleteCartItem(@RequestParam("CartItemID")String cartItemID) {
+		customerService.deleteCartItem(cartItemID);
+		return "redirect:viewCart";
+	}
+	
+	@GetMapping("/customerDetails")
+	public String updateInfo(@ModelAttribute("id")String customerID,@ModelAttribute("updateStatus")String updateStatus,Model model) {
+		model.addAttribute("updateStatus", updateStatus);
+		model.addAttribute("customer",customerService.getCustomer(customerID));
+		return "viewCustomer";
+	}
+	
+	@PostMapping("/updateCustomerInfo")
+	public String updateCustomerInfo(@ModelAttribute("customer")Customer customer,Model model) {
+		customerService.updateCustomerInfo(customer);
+		model.addAttribute("updateStatus", "success");
+		return "redirect:customerDetails";
+	}
+	
+	@GetMapping("/deleteCustomer")
+	public String deleteCaterer(@ModelAttribute("email")String email) {
+		customerService.deleteCustomer(email);
+		return "redirect:../common/welcome";
 	}
 	
 }
