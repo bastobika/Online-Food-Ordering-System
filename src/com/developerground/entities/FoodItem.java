@@ -35,7 +35,7 @@ public class FoodItem {
 		@Column(name="Food_Type", nullable=false )
 		private String foodType;
 		
-		@ManyToOne(cascade= {CascadeType.DETACH,CascadeType.MERGE,CascadeType.PERSIST,CascadeType.REFRESH},fetch=FetchType.LAZY)
+		@ManyToOne(cascade= {CascadeType.DETACH,CascadeType.MERGE,CascadeType.PERSIST,CascadeType.REFRESH},fetch=FetchType.EAGER)
 		@JoinColumn(name="Caterer_ID", referencedColumnName="Caterer_ID")
 		private Caterer caterer;
 		

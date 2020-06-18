@@ -8,6 +8,7 @@ import org.springframework.stereotype.Component;
 import com.developerground.daos.CustomerDao;
 import com.developerground.entities.CartItem;
 import com.developerground.entities.Customer;
+import com.developerground.entities.Order;
 
 @Component
 public class CustomerService {
@@ -41,7 +42,7 @@ public class CustomerService {
 		return customerDao.placeOrder(cartItems);
 	}
 
-	public List<Object[]> viewOrders(String customerID) {
+	public List<Order> viewOrders(String customerID) {
 		return customerDao.viewOrders(customerID);
 	}
 

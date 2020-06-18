@@ -28,11 +28,6 @@ public class OrderedItem {
 		@Column(name="Units",nullable=false)
 		private int units;
 		
-		
-		@ManyToOne(fetch=FetchType.LAZY, cascade= {CascadeType.DETACH, CascadeType.MERGE,CascadeType.PERSIST,CascadeType.REFRESH})
-		@JoinColumn(name="Order_ID", referencedColumnName="Order_ID")
-		private Order order;
-		
 		public OrderedItem() {
 			
 		}
@@ -64,12 +59,6 @@ public class OrderedItem {
 			ID = iD;
 		}
 
-		public Order getOrder() {
-			return order;
-		}
-		public void setOrder(Order order) {
-			this.order = order;
-		}
 		@Override
 		public String toString() {
 			return "CartItem [ID=" + ID + ", foodItem=" + foodItem + ", units=" + units

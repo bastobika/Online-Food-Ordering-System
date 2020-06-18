@@ -12,8 +12,8 @@
 <title>Your Orders</title>
 </head>
 <body>
-			<c:if test="${placedOrder.equalsIgnoreCase('placed') }">
-				Order placed successfully !
+			<c:if test="${orderUpdated.equalsIgnoreCase('updated') }">
+				Order status updated successfully !
 			</c:if>
 		<c:choose>
 				<c:when test="${ noOrders == false }">
@@ -21,33 +21,28 @@
 							<ul>
 								<li>
 									Order ID : ${order.ID } 
-									Caterer Name : ${order.orderedItems[0].foodItem.caterer.name }
 									Order Total : ${order.orderTotal }
 									Order Status : ${order.status } 
-									<c:if test="${order.status eq 'Completed'  }" >
-											<form:form action="rateOrder" method="POST">
-												<input type="hidden" name="orderID" value="${order.ID }" />
-												<input type="submit" value="Rate Order" /> 
-											</form:form>
-									</c:if>
+									<form:form action="updateStatus" method="POST"> 
+										<input type="hidden" name="orderID" value="${order.ID }" />
+										 <input type="submit" value="Update Status To Complete" /> 
+									</form:form>
 										<table>
 										<tr>
 											<th> Food Name </th>
 											<th> Quantity </th>
-											<th> Price(in Rupees) </th>
 											<th> Units </th>
 										</tr>
 										<c:forEach var="orderedItem" items="${order.orderedItems }" >
 											<tr>
 														<td> ${orderedItem.foodItem.name } </td>
 														<td> ${orderedItem.foodItem.quantity } </td>
-														<td> ${orderedItem.foodItem.price } </td>
 														<td> ${orderedItem.units } </td>
 											</tr>
 										</c:forEach>
 										</table>
-									</li>
-								</ul>
+								</li>
+							</ul>
 						</c:forEach>
 			</c:when>
 			<c:when test="${ noOrders == true }" >

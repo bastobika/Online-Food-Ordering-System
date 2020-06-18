@@ -13,6 +13,7 @@ import org.springframework.transaction.annotation.Transactional;
 import com.developerground.entities.Caterer;
 import com.developerground.entities.Customer;
 import com.developerground.entities.FoodItem;
+import com.developerground.entities.Order;
 
 @Repository
 public class CatererDao {
@@ -112,6 +113,22 @@ public class CatererDao {
 		public void updateCatererInfo(Caterer caterer) {
 			Session session = sessionFactory.getCurrentSession();
 			session.update(caterer);
+		}
+
+		@Transactional
+		public List<Order> viewOrders(int catererID) {
+			Session session = sessionFactory.getCurrentSession();
+			Query<Order> query = session.createQuery("from order where Caterer_ID=:catererID",Order.class);
+			query.setParameter("catererID", catererID);
+			return query.getResultList() ;
+		}
+		
+		@Transactional
+		public void updateOrderStatus(int orderID) {
+			Session session = sessionFactory.getCurrentSession();
+			Query<?> query = session.createQuery("update order set status='Completed' where ID=:orderID");
+			query.setParameter("orderID", orderID);
+			query.executeUpdate();
 		}
 
 }

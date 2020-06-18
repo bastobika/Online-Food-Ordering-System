@@ -8,6 +8,7 @@ import org.springframework.stereotype.Component;
 import com.developerground.daos.CatererDao;
 import com.developerground.entities.Caterer;
 import com.developerground.entities.FoodItem;
+import com.developerground.entities.Order;
 
 @Component
 public class CatererService {
@@ -30,9 +31,8 @@ public class CatererService {
 			return catererDao.viewFoodItems(catererID);
 		}
 
-		public List<Object[]> viewOrders(String catererID) {
-			// TODO Auto-generated method stub
-			return null;
+		public List<Order> viewOrders(String catererID) {
+			return catererDao.viewOrders(Integer.parseInt(catererID));
 		}
 
 		public FoodItem updateFood(String foodItemID) {
@@ -57,6 +57,10 @@ public class CatererService {
 
 		public void updateCatererInfo(Caterer caterer) {
 			catererDao.updateCatererInfo(caterer);
+		}
+
+		public void updateOrderStatus(String orderID) {
+			catererDao.updateOrderStatus(Integer.parseInt(orderID));
 		}
 
 }

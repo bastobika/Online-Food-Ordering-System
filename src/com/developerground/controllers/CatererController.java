@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.SessionAttributes;
 
 import com.developerground.entities.Caterer;
 import com.developerground.entities.FoodItem;
+import com.developerground.entities.Order;
 import com.developerground.services.CatererService;
 
 @Controller
@@ -82,12 +83,6 @@ public class CatererController {
 			return "viewFoodItem";
 		}
 		
-		@GetMapping("/viewOrders")
-		public String viewOrders(@ModelAttribute("id")String catererID,Model model) {
-				List<Object[]> orders = catererService.viewOrders(catererID);
-				return "viewCustomerOrders";
-		}	
-		
 		@GetMapping("/catererDetails")
 		public String updateInfo(@ModelAttribute("id")String catererID,@ModelAttribute("updateStatus")String updateStatus,Model model) {
 			model.addAttribute("updateStatus", updateStatus);
@@ -107,4 +102,21 @@ public class CatererController {
 			catererService.deleteCaterer(email);
 			return "redirect:../common/welcome";
 		}
+		
+		@GetMapping("/viewOrders")
+		public String viewOrders(@ModelAttribute("id")String customerID, @ModelAttribute("orderUpdated")String orderUpdated,Model model) {
+				List<Order> orders = catererService.viewOrders(customerID);
+				model.addAttribute("orders",orders);
+				model.addAttribute("noOrders", orders.isEmpty());
+				model.addAttribute("orderUpdated",orderUpdated);
+				return "viewCatererOrders";
+		}	
+		
+		@PostMapping("/updateStatus")
+		public String updateOrderStatus(@RequestParam("orderID")String orderID,Model model){
+			catererService.updateOrderStatus(orderID);
+			model.addAttribute("orderUpdated","updated");
+			return "redirect:viewOrders";
+		}
+		
 }

@@ -1,7 +1,9 @@
 package com.developerground.daos;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
@@ -100,20 +102,18 @@ public class CustomerDao {
 			session.delete(cartItem);
 		}
 		Order order = new Order("Placed",orderTotal,orderedItems);
-		customer.addOrder(order);
-		caterer.addOrder(order);
-		session.save(customer);
-		session.save(caterer);
+		order.setCaterer(caterer);
+		order.setCustomer(customer);
+		session.save(order);
 		return true;
 	}
 
 	@Transactional
-	public List<Object[]> viewOrders(String customerID) {
+	public List<Order> viewOrders(String customerID) {
 		Session session = sessionFactory.getCurrentSession();
-		Query<Order> query = session.createQuery("from order where order.customer.ID=:customerID",Order.class);
-		query.setParameter("customerID", customerID);
-		System.out.println(query.getResultList());
-		return /*query.getResultList()*/null;
+		Query<Order> query = session.createQuery("from order where Customer_ID=:customerID",Order.class);
+		query.setParameter("customerID", Integer.parseInt(customerID));
+		return query.getResultList() ;
 	}
 
 	@Transactional

@@ -7,7 +7,7 @@
 <title>Home</title>
 </head>
 <body>
-	Welcome  ${ customerName }  !
+	Welcome  ${ name }  !
 	
 	<a href="../customer/orderFood"> Order Food </a>
 	<br>

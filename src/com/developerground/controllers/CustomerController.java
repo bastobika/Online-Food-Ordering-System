@@ -1,6 +1,5 @@
 package com.developerground.controllers;
 
-import java.util.HashMap;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,9 +13,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.SessionAttributes;
 
 import com.developerground.entities.CartItem;
-import com.developerground.entities.Caterer;
 import com.developerground.entities.Customer;
-import com.developerground.entities.FoodItem;
 import com.developerground.entities.Order;
 import com.developerground.services.CustomerService;
 
@@ -85,10 +82,9 @@ public class CustomerController {
 	
 	@GetMapping("/viewOrders")
 	public String viewOrders(@ModelAttribute("id")String customerID, @ModelAttribute("placedOrder")String placedOrder,Model model) {
-		List<Object[]> orders = customerService.viewOrders(customerID);
-			System.out.println(orders);
+			List<Order> orders = customerService.viewOrders(customerID);
 			model.addAttribute("placedOrder", placedOrder);
-			model.addAttribute("orders", orders);
+			model.addAttribute("orders",orders);
 			model.addAttribute("noOrders", orders.isEmpty());
 			return "viewCustomerOrders";
 	}	
@@ -117,6 +113,11 @@ public class CustomerController {
 	public String deleteCaterer(@ModelAttribute("email")String email) {
 		customerService.deleteCustomer(email);
 		return "redirect:../common/welcome";
+	}
+	
+	@GetMapping("/rateOrder")
+	public String rateOrder(@ModelAttribute("orderID")String orderID,Model model) {
+		return "ratingPage";
 	}
 	
 }

@@ -31,7 +31,8 @@ public class Order {
 		@Column(name="Order_Total",nullable=false)
 		private int orderTotal;
 		
-		@OneToMany(fetch=FetchType.LAZY,cascade=CascadeType.ALL)
+		@OneToMany(fetch=FetchType.EAGER,cascade=CascadeType.ALL)
+		@JoinColumn(name="Order_ID", referencedColumnName="Order_ID")
 		private List<OrderedItem> orderedItems;                        //When we delete an order,all ordered items will also be deleted
 		
 		
