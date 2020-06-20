@@ -24,7 +24,7 @@
 									Caterer Name : ${order.orderedItems[0].foodItem.caterer.name }
 									Order Total : ${order.orderTotal }
 									Order Status : ${order.status } 
-									<c:if test="${order.status eq 'Completed'  }" >
+									<c:if test="${order.status eq 'Completed'  and order.ratingStatus eq 'Not Rated' }" >
 											<form:form action="rateOrder" method="POST">
 												<input type="hidden" name="orderID" value="${order.ID }" />
 												<input type="submit" value="Rate Order" /> 

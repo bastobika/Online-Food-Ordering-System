@@ -16,6 +16,8 @@
 	<a href="../caterer/addFood"> Add Food Item </a>
 	<br>
 	<a href="../caterer/catererDetails"> View/Update Information </a>
+	<br>
+	<a href="logout"> Logout </a>
 	
 </body>
 </html>

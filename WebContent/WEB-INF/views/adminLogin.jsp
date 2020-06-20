@@ -13,13 +13,41 @@
 <title>Admin Login </title>
 </head>
 <body>
-		<form:form action="authenticate" method="POST" modelAttribute="admin">
-				Name : <form:input path="name"/> 
-				Password : <form:input path="password" />
-				<input type="submit" value="Login" />
+<br>
+<div class="container">
+	<nav class="navbar navbar-expand-lg navbar-light sticky-top" style="background-color: #e3f2fd;">
+	
+	    <ul class="navbar-nav mr-auto">
+	      <li class="nav-item">
+	        <a class="nav-link" href="../common/welcome">Login</a>
+	      </li>
+	      <li class="nav-item">
+	        <a class="nav-link" href="../common/signUpOptions">Sign Up</a>
+	      </li>
+	      <li class="nav-item">
+	        <a class="nav-link active" href="../admin/login">Admin Login</a>
+	      </li>
+	    </ul>
+	</nav>
+
+	<br>
+	<p class="h2"> Admin Login ! </p>
+	<br>
+	<form:form action="authenticate"  method="POST"  modelAttribute="admin" >
+			  <div class="form-group">
+				    <label for="name">Name : </label>
+				    <form:input path="name"  class="form-control" aria-describedby="emailHelp"  />
+			  </div>
+			  <div class="form-group">
+				    <label for="password">Password :</label>
+				    <form:password path="password" class="form-control" />
+				    <small id="emailHelp" class="form-text text-muted">We'll never share your password with anyone else.</small>
+			  </div>
+			  <button type="submit" class="btn btn-primary">Login</button>
 		</form:form>
+
 	 	<c:if test="${loginFlag == 'false' }" >
 	 			<p> Incorrect Name Or Password ! Try again ! </p>
 	 	</c:if>
-	
-</body>
+</div>
+</body></html>

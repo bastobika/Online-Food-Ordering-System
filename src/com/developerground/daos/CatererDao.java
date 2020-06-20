@@ -35,9 +35,9 @@ public class CatererDao {
 			if( catererQuery.getResultList().isEmpty() && customerQuery.getResultList().isEmpty()) {
 				status = "Pending";
 				session.save(caterer);
-			}else {
+			}else 
 				status = "duplicateEntry";
-			}
+			System.out.println(status);
 			return status;
 		}
 		

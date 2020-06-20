@@ -47,5 +47,6 @@
 			No Food Items Available :( 
 		</c:when>	
 	</c:choose>
+	<a href="viewCart"> View Cart</a>
 </body>
 </html>

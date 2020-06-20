@@ -61,4 +61,12 @@ public class CustomerService {
 	public Object getCustomer(String customerID) {
 		return customerDao.getCustomer(Integer.parseInt(customerID));
 	}
+
+	public Object getOrder(String orderID) {
+		return customerDao.getOrder(Integer.parseInt(orderID));
+	}
+
+	public void submitRating(String[] foodItemRatings, String[] foodItemIDs, String catererRating,String orderID) {
+		customerDao.submitRating(foodItemRatings,foodItemIDs,catererRating,orderID);
+	}
 }

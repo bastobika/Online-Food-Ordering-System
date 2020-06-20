@@ -1,5 +1,7 @@
 package com.developerground.entities;
 
+import java.util.List;
+
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -24,6 +26,10 @@ public class OrderedItem {
 		@ManyToOne(fetch=FetchType.EAGER, cascade={CascadeType.DETACH, CascadeType.MERGE,CascadeType.PERSIST,CascadeType.REFRESH})
 		@JoinColumn(name="Food_ID")
 		private FoodItem foodItem;            //cascade : If we delete an ordered item,we should not delete the foodItem  
+		
+		@ManyToOne(fetch=FetchType.LAZY,cascade={CascadeType.DETACH, CascadeType.MERGE,CascadeType.PERSIST,CascadeType.REFRESH})
+		@JoinColumn(name="Order_ID", referencedColumnName="Order_ID")
+		private Order order; 
 		
 		@Column(name="Units",nullable=false)
 		private int units;
@@ -59,6 +65,12 @@ public class OrderedItem {
 			ID = iD;
 		}
 
+		public Order getOrder() {
+			return order;
+		}
+		public void setOrder(Order order) {
+			this.order = order;
+		}
 		@Override
 		public String toString() {
 			return "CartItem [ID=" + ID + ", foodItem=" + foodItem + ", units=" + units

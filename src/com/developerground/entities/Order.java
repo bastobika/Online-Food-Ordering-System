@@ -31,8 +31,10 @@ public class Order {
 		@Column(name="Order_Total",nullable=false)
 		private int orderTotal;
 		
-		@OneToMany(fetch=FetchType.EAGER,cascade=CascadeType.ALL)
-		@JoinColumn(name="Order_ID", referencedColumnName="Order_ID")
+		@Column(name="Rated",nullable=false)
+		private String ratingStatus;
+		
+		@OneToMany(fetch=FetchType.EAGER,cascade=CascadeType.ALL,mappedBy="order")
 		private List<OrderedItem> orderedItems;                        //When we delete an order,all ordered items will also be deleted
 		
 		
@@ -46,10 +48,14 @@ public class Order {
 		
 		public Order() {}
 
-		public Order(String status, int orderTotal,List<OrderedItem> orderedItems) {
+		public Order(String status, int orderTotal,List<OrderedItem> orderedItems,String ratingStatus) {
 			this.status = status;
 			this.orderTotal = orderTotal;
 			this.orderedItems = orderedItems;
+			this.ratingStatus = ratingStatus;
+			for(OrderedItem orderedItem : orderedItems) {
+				orderedItem.setOrder(this);
+			}
 		}
 
 		public int getID() {
@@ -106,10 +112,18 @@ public class Order {
 			this.caterer = caterer;
 		}
 
+		public String getRatingStatus() {
+			return ratingStatus;
+		}
+
+		public void setRatingStatus(String ratingStatus) {
+			this.ratingStatus = ratingStatus;
+		}
+
 		@Override
 		public String toString() {
-			return "Order [ID=" + ID + ", status=" + status + ", orderTotal=" + orderTotal + ", orderedItems="
-					+ orderedItems + "]";
+			return "Order [ID=" + ID + ", status=" + status + ", orderTotal=" + orderTotal + ", ratingStatus="
+					+ ratingStatus + "]";
 		}
 		
 }

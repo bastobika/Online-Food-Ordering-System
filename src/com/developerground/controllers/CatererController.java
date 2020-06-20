@@ -25,13 +25,14 @@ public class CatererController {
 		@Autowired
 		private CatererService catererService;
 		
-		@PostMapping("/signUp")
+		@RequestMapping("/signUp")
 		public String signUp(@ModelAttribute("caterer")Caterer caterer, Model model) {
 
 			String status = catererService.signUp(caterer);
-			model.addAttribute("catererStatus", status);
+			model.addAttribute("status", status);
 			if( status.equalsIgnoreCase("duplicateEntry")) {
-				return "catererSignUp";
+				model.addAttribute("userType", "Caterer");
+				return "redirect:../common/signUp";
 			}
 			return "redirect:../common/welcome";
 		}

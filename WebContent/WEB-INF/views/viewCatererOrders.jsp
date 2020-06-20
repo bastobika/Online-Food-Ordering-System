@@ -23,10 +23,12 @@
 									Order ID : ${order.ID } 
 									Order Total : ${order.orderTotal }
 									Order Status : ${order.status } 
-									<form:form action="updateStatus" method="POST"> 
-										<input type="hidden" name="orderID" value="${order.ID }" />
-										 <input type="submit" value="Update Status To Complete" /> 
-									</form:form>
+									<c:if test="${order.status eq 'Placed' }" >
+										<form:form action="updateStatus" method="POST"> 
+											<input type="hidden" name="orderID" value="${order.ID }" />
+											 <input type="submit" value="Update Status To Complete" /> 
+										</form:form>
+									</c:if>
 										<table>
 										<tr>
 											<th> Food Name </th>

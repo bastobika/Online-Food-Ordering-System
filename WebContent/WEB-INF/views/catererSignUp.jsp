@@ -19,7 +19,7 @@
 			Name : <form:input path="name"/>
 			Email : <form:input path="email"/>
 			Phone : <form:input path="phone" />
-			Password : <form:input path="password" />
+			Password : <form:password path="password" />
 			<input type="submit" value="Sign Up" />
 		</form:form>
 </body>

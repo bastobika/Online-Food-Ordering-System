@@ -12,6 +12,8 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.developerground.entities.Admin;
 import com.developerground.entities.Caterer;
+import com.developerground.entities.Customer;
+import com.developerground.entities.Order;
 
 @Repository("adminDao")
 public class AdminDao {
@@ -49,5 +51,26 @@ public class AdminDao {
 		Caterer caterer = query.getResultList().get(0);
 		caterer.setStatus(status);
 		session.save(caterer);
+	}
+
+	@Transactional
+	public List<Caterer> viewCaterers() {
+		Session session = sessionFactory.getCurrentSession();
+		Query<Caterer> query = session.createQuery("from caterer", Caterer.class);
+		return query.getResultList();
+	}
+
+	@Transactional
+	public List<Customer> viewCustomers() {
+		Session session = sessionFactory.getCurrentSession();
+		Query<Customer> query = session.createQuery("from customer", Customer.class);
+		return query.getResultList();
+	}
+
+	@Transactional
+	public List<Order> viewOrders() {
+		Session session = sessionFactory.getCurrentSession();
+		Query<Order> query = session.createQuery("from order", Order.class);
+		return query.getResultList();
 	}
 }

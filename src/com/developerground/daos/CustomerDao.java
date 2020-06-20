@@ -101,7 +101,7 @@ public class CustomerDao {
 			orderedItems.add(orderedItem);
 			session.delete(cartItem);
 		}
-		Order order = new Order("Placed",orderTotal,orderedItems);
+		Order order = new Order("Placed",orderTotal,orderedItems,"Not Rated");
 		order.setCaterer(caterer);
 		order.setCustomer(customer);
 		session.save(order);
@@ -144,5 +144,48 @@ public class CustomerDao {
 	public void updateCustomerInfo(Customer customer) {
 		Session session = sessionFactory.getCurrentSession();
 		session.update(customer);
+	}
+
+	@Transactional
+	public Object getOrder(int orderID) {
+		Session session = sessionFactory.getCurrentSession();
+		Query<Order> query = session.createQuery("from order where ID=:orderID",Order.class);
+		query.setParameter("orderID", orderID);
+		return query.getSingleResult();
+	}
+
+	@Transactional
+	public void submitRating(String[] foodItemRatings, String[] foodItemIDs, String catererRating,String orderID) {
+		Session session = sessionFactory.getCurrentSession();
+		int i = 0;
+		int newRating = 0;
+		FoodItem foodItem = new FoodItem();
+		Query<FoodItem> foodItemQuery = null;
+		List<OrderedItem> orderedItems = new ArrayList<OrderedItem>();
+		Query<Object[]> foodItemRatingCountQuery  = null;
+		for (String foodItemID : foodItemIDs) {
+			foodItemRatingCountQuery = session.createQuery("from orderedItem item, order o where item.foodItem.ID=:foodItemID and item.order.ID=o.ID and o.ratingStatus='Rated'", Object[].class);
+			foodItemRatingCountQuery.setParameter("foodItemID", Integer.parseInt(foodItemID));
+			for (Object[] object : foodItemRatingCountQuery.getResultList()) {
+				orderedItems.add((OrderedItem) object[0]);
+			}
+			foodItemQuery =  session.createQuery("from food_item where ID=:foodItemID",FoodItem.class);
+			foodItemQuery.setParameter("foodItemID", Integer.parseInt(foodItemID));
+			foodItem = foodItemQuery.getSingleResult();
+			newRating = Integer.parseInt(foodItemRatings[i]);
+			foodItem.setRating(((foodItem.getRating() *  orderedItems.size()) + newRating) / ( orderedItems.size() + 1));
+			session.update(foodItem);
+		}
+		Query<Order> orderQuery = session.createQuery("from order where ID=:orderID",Order.class);
+		orderQuery.setParameter("orderID", Integer.parseInt(orderID));
+		Order order = orderQuery.getSingleResult();
+		order.setRatingStatus("Rated");
+		Caterer caterer = order.getCaterer();
+		Query<Order> catererRatingCountQuery = session.createQuery("from order where Caterer_ID=:catererID and ratingStatus='Rated'", Order.class);
+		catererRatingCountQuery.setParameter("catererID", caterer.getID());
+		int newCatererRating = Integer.parseInt(catererRating);
+		caterer.setRating((caterer.getRating()*catererRatingCountQuery.getResultList().size() + newCatererRating ) / (catererRatingCountQuery.getResultList().size() + 1 ));
+		session.update(order);
+		session.update(caterer);
 	}
 }

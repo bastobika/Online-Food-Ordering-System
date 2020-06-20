@@ -2,6 +2,8 @@ package com.developerground.controllers;
 
 import java.util.List;
 
+import javax.servlet.http.HttpServletRequest;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -115,9 +117,21 @@ public class CustomerController {
 		return "redirect:../common/welcome";
 	}
 	
-	@GetMapping("/rateOrder")
+	@PostMapping("/rateOrder")
 	public String rateOrder(@ModelAttribute("orderID")String orderID,Model model) {
+		model.addAttribute("order", customerService.getOrder(orderID));	
 		return "ratingPage";
+	}
+	
+	@PostMapping("/submitRating")
+	public String rateFoodItem(HttpServletRequest request, Model model) {
+		String[] foodItemRatings = request.getParameterValues("foodItemRating");
+		String catererRating = request.getParameter("catererRating");
+		String[] foodItemIDs = request.getParameterValues("foodItemID");
+		String orderID = request.getParameter("orderID");
+		customerService.submitRating(foodItemRatings,foodItemIDs,catererRating,orderID);
+		model.addAttribute("ratingStatus", "success");
+		return "customerHome";
 	}
 	
 }
