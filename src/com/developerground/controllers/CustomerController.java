@@ -3,11 +3,16 @@ package com.developerground.controllers;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.propertyeditors.StringTrimmerEditor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -28,8 +33,10 @@ public class CustomerController {
 	private CustomerService customerService;
 	
 	@PostMapping("/signUp")
-	public String signUp(@ModelAttribute("customer")Customer customer, Model model) {
+	public String signUp(@Valid @ModelAttribute("customer")Customer customer,BindingResult result, Model model) {
 
+		if(result.hasErrors())
+			return "customerSignUp";
 		String status = customerService.signUp(customer);
 		model.addAttribute("status", status);
 		if( status.equalsIgnoreCase("duplicateEntry")) {
@@ -37,6 +44,16 @@ public class CustomerController {
 			return "redirect:../common/signUp";
 		}
 		return "redirect:../common/welcome";
+	}
+	
+	/*
+	 * If user enters white space as input,this function trims all white spaces.
+	 * InitBinder is called before every request is passed to controller
+	 */
+	@InitBinder
+	public void validationForEmptyInput(WebDataBinder dataBinder) {
+		StringTrimmerEditor trimmer = new StringTrimmerEditor(true);  //sets the trimmer
+		dataBinder.registerCustomEditor(String.class, trimmer);  //trims all white spaces from string inputs - registered as custom editor
 	}
 	
 	@GetMapping("/orderFood")
@@ -106,7 +123,9 @@ public class CustomerController {
 	}
 	
 	@PostMapping("/updateCustomerInfo")
-	public String updateCustomerInfo(@ModelAttribute("customer")Customer customer,Model model) {
+	public String updateCustomerInfo(@Valid @ModelAttribute("customer")Customer customer,BindingResult result,Model model) {
+		if(result.hasErrors())
+			return "viewCustomer";
 		customerService.updateCustomerInfo(customer);
 		model.addAttribute("updateStatus", "success");
 		return "redirect:customerDetails";

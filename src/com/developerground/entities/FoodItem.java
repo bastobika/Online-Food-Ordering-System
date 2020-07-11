@@ -13,6 +13,12 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Pattern;
+import javax.validation.constraints.Size;
+
+import org.springframework.format.annotation.NumberFormat;
+import org.springframework.format.annotation.NumberFormat.Style;
 
 @Entity(name="food_item")
 @Table(name="food_items")
@@ -24,13 +30,18 @@ public class FoodItem {
 		private int ID;
 		
 		@Column(name="Name", nullable=false)
+		@NotNull(message="Name is required.")
+		@Size(min=1,message="Name cannot be empty.")
 		private String name;
 		
 		@Column(name="Quantity", nullable=false)
+		@NotNull(message="Quantity is required.")
+		@Size(min=1,message="Quantity cannot be empty.")
 		private String quantity;
 
 		@Column(name="Price_In_Rupees", nullable=false)
-		private int price;
+		@NotNull(message="Price is required.")
+		private Integer price;
 
 		@Column(name="Rating", nullable=false)
 		private double rating;
@@ -70,10 +81,10 @@ public class FoodItem {
 		public void setQuantity(String quantity) {
 			this.quantity = quantity;
 		}
-		public int getPrice() {
+		public Integer getPrice() {
 			return price;
 		}
-		public void setPrice(int price) {
+		public void setPrice(Integer price) {
 			this.price = price;
 		}
 		public double getRating() {

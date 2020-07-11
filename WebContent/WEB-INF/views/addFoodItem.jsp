@@ -11,6 +11,9 @@
 <meta charset="ISO-8859-1">
 <title>Add Food Item</title>
 </head>
+<style>
+	.error{color : red}
+</style>
 <body>
 	<div class="container">
 		<br>
@@ -41,22 +44,25 @@
 			  <div class="form-group">
 			    <label for="name">Item Name</label>
 			      <form:input path="name" class="form-control" />
+			       <form:errors path="name" class="error" />
 			  </div>
 			 <div class="form-group">
 			    <label for="quantity">Quantity</label>
 			      <form:input path="quantity" class="form-control" aria-describedby="quantityHelp" />
 			       <small id="quantityHelp" class="form-text text-muted">Mention the unit also, for e.g., 4 pieces or 200gm</small>
+			        <form:errors path="quantity" class="error" />
 			  </div>
 			  <div class="form-group">
 			    <label for="price">Price (in Rupees)</label>
 			      <form:input path="price" class="form-control" />
+			       <form:errors path="price" class="error" />
 			  </div>
 			    <div class="form-group">
 				    <label for="foodType">Food Type</label>
 					    <form:select class="form-control" path="foodType" aria-describedby="foodTypeHelp">
+					    	<form:option value="Neutral"> Neutral </form:option>
 						     <form:option value="Veg"> Veg </form:option>
 							 <form:option value="NonVeg"> Non-Veg </form:option>
-							 <form:option value="Neutral"> Neutral </form:option>
 					    </form:select>
 					  <small id="foodTypeHelp" class="form-text text-muted">Veg/NonVeg/Neutral</small>
 	  		</div>

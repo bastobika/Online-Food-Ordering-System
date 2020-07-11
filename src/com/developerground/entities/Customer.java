@@ -13,6 +13,9 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Pattern;
+import javax.validation.constraints.Size;
 
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
@@ -27,15 +30,25 @@ public class Customer {
 		private int ID;
 		
 		@Column(name="Name", nullable=false )
+		@NotNull(message="Name is required.")
+		@Size(min=1,message="Name cannot be empty.")
 		private String name;
 		
 		@Column(name="Email", nullable=false, unique=true )
+		@NotNull(message="Email is required.")
+		@Size(min=1,message="Email cannot be empty.")
+		@Pattern(regexp="^[\\w-\\.]+@([\\w-]+\\.)+[\\w-]{2,4}$",message="Please enter a valid email address.")
 		private String email;
 		
 		@Column(name="Phone", nullable=false, unique=true )
+		@NotNull(message="Phone is required.")
+		@Size(min=10,max=10,message="Phone number should have 10 digits.")
+		@Pattern(regexp="^[0-9]*$",message="Phone number should only have numbers.")
 		private String phone;
 		
 		@Column(name="Password", nullable=false)
+		@NotNull(message="Password is required.")
+		@Size(min=6,message="Password should have minimum 6 characters.")
 		private String password;
 		
 		@Column(name="Preference", nullable=false)

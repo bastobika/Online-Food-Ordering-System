@@ -11,6 +11,9 @@
 <meta charset="ISO-8859-1">
 <title>Update Food Item</title>
 </head>
+<style>
+	.error{color : red}
+</style>
 <body>
 	<br>
 	<div class="container">
@@ -34,20 +37,23 @@
 	   <br>
 		<p class="h4">Update Details -</p>
 		<br>
-		<form:form action="updateFoodItem" method="POST" modelAttribute="foodItem">
+		<form:form action="updateItem" method="POST" modelAttribute="foodItem">
 			<form:hidden path="ID"/>    <!-- Adds the original food ID to the update request. Else you lose track of the original food item -->
 			<form:hidden path="rating"/>     <!-- Adds the original rating to the update request. Else you lose track of the original rating -->
 			 <div class="form-group">
 			 	 <label for="name">Item Name :</label>    
 				 <form:input path="name" class="form-control"/>
+				 <form:errors path="name" class="error" />
 			</div>
 			 <div class="form-group">
 			 	 <label for="name">Quantity :</label>    
 				 <form:input path="quantity" class="form-control"/>
+				 <form:errors path="quantity" class="error" />
 			</div>
 			 <div class="form-group">
 			 	 <label for="name">Price (in Rupees) :</label>    
 				 <form:input path="price" class="form-control"/>
+				 <form:errors path="price" class="error" />
 			</div>
 			 <div class="form-group">
 			 	 <label for="foodType">Food Type :</label>    

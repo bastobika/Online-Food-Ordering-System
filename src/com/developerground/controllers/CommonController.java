@@ -5,9 +5,12 @@ import java.util.Map;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.propertyeditors.StringTrimmerEditor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -17,7 +20,6 @@ import org.springframework.web.bind.support.SessionStatus;
 
 import com.developerground.entities.Caterer;
 import com.developerground.entities.Customer;
-import com.developerground.entities.FoodItem;
 import com.developerground.services.CommonService;
 
 @Controller
@@ -84,4 +86,5 @@ public class CommonController {
 			session.invalidate();
 			return "welcome";
 		}
+		
 }

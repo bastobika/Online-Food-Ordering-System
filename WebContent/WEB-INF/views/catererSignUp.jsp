@@ -11,6 +11,9 @@
 <meta charset="ISO-8859-1">
 <title>Caterer Sign Up</title>
 </head>
+<style>
+	.error{color : red}
+</style>
 <body>
 	<br>
 	<div class="container">
@@ -19,13 +22,13 @@
 	
 	    <ul class="navbar-nav mr-auto">
 	      <li class="nav-item">
-	        <a class="nav-link" href="welcome">Login</a>
+	        <a class="nav-link" href="${pageContext.request.contextPath}/common/welcome">Login</a>
 	      </li>
 	      <li class="nav-item">
-	        <a class="nav-link  active" href="signUpOptions">Sign Up</a>
+	        <a class="nav-link  active" href="${pageContext.request.contextPath}/common/signUpOptions">Sign Up</a>
 	      </li>
 	      <li class="nav-item">
-	        <a class="nav-link" href="../admin/login">Admin Login</a>
+	        <a class="nav-link" href="${pageContext.request.contextPath}/admin/login">Admin Login</a>
 	      </li>
 	    </ul>
 	</nav>
@@ -36,18 +39,22 @@
 		  <div class="form-group">
 		    <label for="name">Name :</label>
 		      <form:input path="name" class="form-control" />
+		      <form:errors path="name" class="error" />
 		  </div>
 		 <div class="form-group">
 		    <label for="email">Email :</label>
 		      <form:input path="email" class="form-control" />
+		       <form:errors path="email" class="error" />
 		  </div>
 		  <div class="form-group">
 		    <label for="phone">Phone Number :</label>
 		      <form:input path="phone" class="form-control" />
+		       <form:errors path="phone" class="error" />
 		  </div>
 		  <div class="form-group">
 		    <label for="password">Password :</label>
 		      <form:password path="password" class="form-control" />
+		       <form:errors path="password" class="error" />
 		  </div>
 		  <button type="submit" class="btn btn-primary">Sign up</button>
 		</form:form>

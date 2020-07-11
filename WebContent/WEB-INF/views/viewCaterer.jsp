@@ -11,6 +11,9 @@
 <meta charset="ISO-8859-1">
 <title>Caterer Information </title>
 </head>
+<style>
+	.error{color : red}
+</style>
 <body>
 	<div class="container">
 	<br>
@@ -39,6 +42,7 @@
 			 <div class="form-group">
 			 	 <label for="name">Name :</label>    
 				 <form:input path="name" class="form-control"/>
+				 <form:errors path="name" class="error" />
 			</div>
 			<div class="form-group">
 			 	 <label for="email">Email :</label>    
@@ -51,6 +55,7 @@
 			<div class="form-group">
 			 	 <label for="password">Password :</label>    
 				 <form:password path="password" showPassword="true" class="form-control"/>
+				 <form:errors path="password" class="error" />
 			</div>
 			<div class="form-group">
 			 	 <label for="rating">Rating :</label>    

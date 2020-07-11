@@ -2,10 +2,17 @@ package com.developerground.controllers;
 
 import java.util.List;
 
+import javax.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.propertyeditors.StringTrimmerEditor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.WebDataBinder;
+import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -26,8 +33,10 @@ public class CatererController {
 		private CatererService catererService;
 		
 		@RequestMapping("/signUp")
-		public String signUp(@ModelAttribute("caterer")Caterer caterer, Model model) {
+		public String signUp(@Valid @ModelAttribute("caterer")Caterer caterer, BindingResult result, Model model) {
 
+			if(result.hasErrors())
+				return "catererSignUp";
 			String status = catererService.signUp(caterer);
 			model.addAttribute("status", status);
 			if( status.equalsIgnoreCase("duplicateEntry")) {
@@ -37,6 +46,16 @@ public class CatererController {
 			return "redirect:../common/welcome";
 		}
 		
+		/*
+		 * If user enters white space as input,this function trims all white spaces.
+		 * InitBinder is called before every request is passed to controller
+		 */
+		@InitBinder
+		public void validationForEmptyInput(WebDataBinder dataBinder) {
+			StringTrimmerEditor trimmer = new StringTrimmerEditor(true);  //sets the trimmer
+			dataBinder.registerCustomEditor(String.class, trimmer);  //trims all white spaces from string inputs - registered as custom editor
+		}
+		
 		@GetMapping("/addFood")
 		public String addFood(Model model) {
 			model.addAttribute("foodItem", new FoodItem());
@@ -44,7 +63,9 @@ public class CatererController {
 		}
 		
 		@PostMapping("/addFoodItem")
-		public String addFoodItem(@ModelAttribute("foodItem")FoodItem foodItem, @ModelAttribute("email")String email, Model model) {
+		public String addFoodItem(@Valid @ModelAttribute("foodItem")FoodItem foodItem,BindingResult result, @ModelAttribute("email")String email, Model model) {
+			if(result.hasErrors())
+				return "addFoodItem";
 			String additionStatus = catererService.addFoodItem(foodItem,email);
 			model.addAttribute("additionStatus", additionStatus);
 			if (additionStatus.equalsIgnoreCase("success")) {
@@ -61,8 +82,10 @@ public class CatererController {
 			return "updateFoodItem";
 		}
 		
-		@PostMapping("/updateFoodItem")
-		public String updateFoodItem(@ModelAttribute("foodItem")FoodItem foodItem, @ModelAttribute("email")String email, Model model) {
+		@PostMapping("/updateItem")
+		public String updateFoodItem(@Valid @ModelAttribute("foodItem")FoodItem foodItem,BindingResult result, @ModelAttribute("email")String email, Model model) {
+			if(result.hasErrors())
+				return "updateFoodItem";
 			String updateStatus = catererService.updateFoodItem(foodItem,email);
 			model.addAttribute("updateStatus", updateStatus);
 			return "redirect:viewFoodItems";
@@ -81,7 +104,7 @@ public class CatererController {
 			List<FoodItem> foodItems = catererService.viewFoodItems(catererID);
 			model.addAttribute("foodItems", foodItems);
 			model.addAttribute("noFoodItems",foodItems.isEmpty());
-			return "viewFoodItem";
+			return "viewAllFoodItems";
 		}
 		
 		@GetMapping("/catererDetails")
@@ -92,7 +115,9 @@ public class CatererController {
 		}
 		
 		@PostMapping("/updateCatererInfo")
-		public String updateCatererInfo(@ModelAttribute("caterer")Caterer caterer,Model model) {
+		public String updateCatererInfo(@Valid @ModelAttribute("caterer")Caterer caterer,BindingResult result,Model model) {
+			if(result.hasErrors())
+				return "viewCaterer";
 			catererService.updateCatererInfo(caterer);
 			model.addAttribute("updateStatus", "success");
 			return "redirect:catererDetails";
@@ -105,8 +130,8 @@ public class CatererController {
 		}
 		
 		@GetMapping("/viewOrders")
-		public String viewOrders(@ModelAttribute("id")String customerID, @ModelAttribute("orderUpdated")String orderUpdated,Model model) {
-				List<Order> orders = catererService.viewOrders(customerID);
+		public String viewOrders(@ModelAttribute("id")String catererID, @ModelAttribute("orderUpdated")String orderUpdated,Model model) {
+				List<Order> orders = catererService.viewOrders(catererID);
 				model.addAttribute("orders",orders);
 				model.addAttribute("noOrders", orders.isEmpty());
 				model.addAttribute("orderUpdated",orderUpdated);
@@ -119,5 +144,4 @@ public class CatererController {
 			model.addAttribute("orderUpdated","updated");
 			return "redirect:viewOrders";
 		}
-		
 }
