@@ -1,5 +1,7 @@
 package com.developerground.entities;
 
+import java.util.List;
+
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -9,6 +11,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 @Entity(name="food_item")
@@ -24,7 +27,7 @@ public class FoodItem {
 		private String name;
 		
 		@Column(name="Quantity", nullable=false)
-		private int quantity;
+		private String quantity;
 
 		@Column(name="Price_In_Rupees", nullable=false)
 		private int price;
@@ -38,6 +41,9 @@ public class FoodItem {
 		@ManyToOne(cascade= {CascadeType.DETACH,CascadeType.MERGE,CascadeType.PERSIST,CascadeType.REFRESH},fetch=FetchType.EAGER)
 		@JoinColumn(name="Caterer_ID", referencedColumnName="Caterer_ID")
 		private Caterer caterer;
+		
+		@OneToMany(cascade= CascadeType.ALL,fetch=FetchType.LAZY, mappedBy="foodItem")
+		private List<OrderedItem> orderedItems;
 		
 		public String getFoodType() {
 			return foodType;
@@ -58,10 +64,10 @@ public class FoodItem {
 		public void setName(String name) {
 			this.name = name;
 		}
-		public int getQuantity() {
+		public String getQuantity() {
 			return quantity;
 		}
-		public void setQuantity(int quantity) {
+		public void setQuantity(String quantity) {
 			this.quantity = quantity;
 		}
 		public int getPrice() {

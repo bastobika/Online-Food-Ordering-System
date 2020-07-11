@@ -17,7 +17,6 @@
 <br>
 <div class="container">
 	<nav class="navbar navbar-expand-lg navbar-light sticky-top" style="background-color: #e3f2fd;">
-	
 	    <ul class="navbar-nav mr-auto">
 	      <li class="nav-item">
 	        <a class="nav-link active" href="welcome">Login</a>
@@ -43,13 +42,12 @@
 			  </div>
 			  <div class="form-group">
 				    <label for="password">Password :</label>
-				    <input type="password" class="form-control" id="password"  name="password" >
-				    <small id="emailHelp" class="form-text text-muted">We'll never share your password with anyone else.</small>
+				    <input type="password" class="form-control" id="password"  name="password" aria-describedby="passwordHelp">
+				    <small id="passwordHelp" class="form-text text-muted">We'll never share your password with anyone else.</small>
 			  </div>
 			  <button type="submit" class="btn btn-primary">Login</button>
-		</form>
+	</form>
 
-	 		
 	 <c:choose>
 		<c:when test="${ loginFlag eq 'success' and status eq 'Pending' }" >
 	 		<p class="h4">Your account will be created after Admin approval. </p>
@@ -63,10 +61,10 @@
 		  <c:when test="${loginFlag eq 'notRegistered' }" >
 		 	<p class="h4"> No User Found.  Please Sign Up ! </p>
 		 </c:when>
-		 <c:when test="${ customerStatus eq 'success' }" >
+		 <c:when test="${ status eq 'success' }" >
 		 	<p class="h4"> Sign Up successful ! You can login now ! </p>
 		 </c:when>
-		  <c:when test="${ catererStatus eq 'Pending' }" >
+		  <c:when test="${ status eq 'Pending' }" >
 		 	<p class="h4"> Sign Up successful ! Your account will be created after Admin approval ! </p>
 		 </c:when>
 	</c:choose>

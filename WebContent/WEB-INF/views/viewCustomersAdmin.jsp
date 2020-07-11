@@ -29,6 +29,9 @@
 	      <li class="nav-item">
 	        <a class="nav-link" href="viewOrders">View Orders</a>
 	      </li>
+	       <li class="nav-item">
+	        <a class="nav-link active" href="${pageContext.request.contextPath}/common/logout">Logout</a>
+	      </li>
 	    </ul>
 	</nav>
 	<br>

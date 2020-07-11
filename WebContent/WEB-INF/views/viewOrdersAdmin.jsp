@@ -29,6 +29,9 @@
 	      <li class="nav-item">
 	        <a class="nav-link active" href="viewOrders">View Orders</a>
 	      </li>
+	      <li class="nav-item">
+	        <a class="nav-link active" href="viewOrders">Logout</a>
+	      </li>
 	    </ul>
 	</nav>
 	<br>

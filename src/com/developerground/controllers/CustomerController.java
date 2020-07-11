@@ -31,9 +31,10 @@ public class CustomerController {
 	public String signUp(@ModelAttribute("customer")Customer customer, Model model) {
 
 		String status = customerService.signUp(customer);
-		model.addAttribute("customerStatus", status);
+		model.addAttribute("status", status);
 		if( status.equalsIgnoreCase("duplicateEntry")) {
-			return "customerSignUp";
+			model.addAttribute("userType", "Customer");
+			return "redirect:../common/signUp";
 		}
 		return "redirect:../common/welcome";
 	}

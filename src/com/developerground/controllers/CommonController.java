@@ -45,9 +45,9 @@ public class CommonController {
 		}
 		
 		@GetMapping("/welcome")
-		public String Welcome(@ModelAttribute("customerStatus")String customerStatus, @ModelAttribute("catererStatus")String catererStatus, Model model) {
-			model.addAttribute("customerStatus", customerStatus);
-			model.addAttribute("catererStatus", catererStatus);
+		public String Welcome(@ModelAttribute("status")String customerStatus, @ModelAttribute("status")String catererStatus, Model model) {
+			model.addAttribute("status", customerStatus);
+			model.addAttribute("status", catererStatus);
 			return "welcome";
 		}
 		

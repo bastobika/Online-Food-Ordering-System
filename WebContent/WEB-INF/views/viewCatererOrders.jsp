@@ -9,48 +9,75 @@
 <html>
 <head>
 <meta charset="ISO-8859-1">
-<title>Your Orders</title>
+<title>Orders</title>
 </head>
 <body>
-			<c:if test="${orderUpdated.equalsIgnoreCase('updated') }">
-				Order status updated successfully !
-			</c:if>
-		<c:choose>
-				<c:when test="${ noOrders == false }">
-						<c:forEach var="order" items="${orders }">
-							<ul>
-								<li>
-									Order ID : ${order.ID } 
-									Order Total : ${order.orderTotal }
-									Order Status : ${order.status } 
-									<c:if test="${order.status eq 'Placed' }" >
-										<form:form action="updateStatus" method="POST"> 
-											<input type="hidden" name="orderID" value="${order.ID }" />
-											 <input type="submit" value="Update Status To Complete" /> 
-										</form:form>
-									</c:if>
-										<table>
-										<tr>
-											<th> Food Name </th>
-											<th> Quantity </th>
-											<th> Units </th>
-										</tr>
-										<c:forEach var="orderedItem" items="${order.orderedItems }" >
+<br>
+	<div class="container">
+	
+		<nav class="navbar navbar-expand-lg navbar-light sticky-top" style="background-color: #e3f2fd;">
+		    <ul class="navbar-nav mr-auto">
+		      <li class="nav-item">
+		        <a class="nav-link active" href="${pageContext.request.contextPath}/caterer/viewOrders">Orders</a>
+		      </li>
+		      <li class="nav-item">
+		        <a class="nav-link" href="${pageContext.request.contextPath}/caterer/viewFoodItems">Food Items</a>
+		      </li>
+		      <li class="nav-item">
+		        <a class="nav-link" href="${pageContext.request.contextPath}/caterer/catererDetails">Profile</a>
+		      </li>
+		      <li class="nav-item">
+		      	<a class="nav-link" href="${pageContext.request.contextPath}/common/logout"> Logout </a>
+		      </li>
+		    </ul>
+	   </nav>
+	   <br>
+	<c:if test="${orderUpdated.equalsIgnoreCase('updated') }">
+			<p class="h4">Order status updated successfully ! </p>
+	</c:if>	
+	<br>
+	<c:choose>
+			<c:when test="${ noOrders == false }">
+					<c:forEach var="order" items="${orders }">
+						<ul>
+							<li>
+								<p class="h5"> Order ID : ${order.ID } 
+								Order Total : ${order.orderTotal }
+								Order Status : ${order.status }  
+								<c:if test="${order.status eq 'Placed' }" >
+									<form:form action="updateStatus" method="POST"> 
+										<input type="hidden" name="orderID" value="${order.ID }" />
+										  <button type="submit" class="btn btn-primary  btn-sm">Update Status To Complete </button>
+									</form:form> 
+								</c:if></p>
+								<div class="container">
+									<table  class="table-sm">
+										<thead class="thead-dark">
 											<tr>
-														<td> ${orderedItem.foodItem.name } </td>
-														<td> ${orderedItem.foodItem.quantity } </td>
-														<td> ${orderedItem.units } </td>
+												<th scope="col"> Food Name </th>
+												<th scope="col"> Quantity </th>
+												<th scope="col"> Units </th>
 											</tr>
-										</c:forEach>
-										</table>
-								</li>
-							</ul>
-						</c:forEach>
-			</c:when>
-			<c:when test="${ noOrders == true }" >
-				You have no Orders.
-				<a href="orderFood"> Order Food !</a>
-			</c:when>	
-		</c:choose>
+										</thead>
+										<tbody>
+											<c:forEach var="orderedItem" items="${order.orderedItems }" >
+												<tr>
+															<td> ${orderedItem.foodItem.name } </td>
+															<td> ${orderedItem.foodItem.quantity } </td>
+															<td> ${orderedItem.units } </td>
+												</tr>
+											</c:forEach>
+										</tbody>
+									</table>
+								</div>
+							</li>
+						</ul>
+					</c:forEach>
+		</c:when>
+		<c:when test="${ noOrders == true }" >
+			<p class="h4">You have no Orders yet ! </p>
+		</c:when>	
+	</c:choose>
+</div>
 </body>
 </html>

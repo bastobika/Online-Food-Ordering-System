@@ -47,7 +47,7 @@
 		</form:form>
 
 	 	<c:if test="${loginFlag == 'false' }" >
-	 			<p> Incorrect Name Or Password ! Try again ! </p>
+	 			<p class="h4"> Incorrect Name Or Password ! Try again ! </p>
 	 	</c:if>
 </div>
 </body></html>

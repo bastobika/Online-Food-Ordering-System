@@ -12,21 +12,56 @@
 <title>Add Food Item</title>
 </head>
 <body>
+	<div class="container">
+		<br>
+		<nav class="navbar navbar-expand-lg navbar-light sticky-top" style="background-color: #e3f2fd;">
+		    <ul class="navbar-nav mr-auto">
+		      <li class="nav-item">
+		        <a class="nav-link" href="${pageContext.request.contextPath}/caterer/viewOrders">Orders</a>
+		      </li>
+		      <li class="nav-item">
+		        <a class="nav-link" href="${pageContext.request.contextPath}/caterer/viewFoodItems">Food Items</a>
+		      </li>
+		      <li class="nav-item">
+		        <a class="nav-link" href="${pageContext.request.contextPath}/caterer/catererDetails">Profile</a>
+		      </li>
+		      <li class="nav-item">
+		      	<a class="nav-link" href="${pageContext.request.contextPath}/common/logout"> Logout </a>
+		      </li>
+		    </ul>
+	   </nav>
+		<br>
 		<c:if test="${additionStatus eq 'failure' }" >
 			Addition of Food Item failed. Please try Again.
 		</c:if>
-		Enter Details :
-		<form:form action="addFoodItem" method="POST" modelAttribute="foodItem">
-			Item Name : <form:input path="name"/>
-			Quantity : <form:input path="quantity" />
-			Price (in Rupees) : <form:input path="price" />
-			Food Type : <form:select path="foodType">
-																	<form:option value="Veg"> Veg </form:option>
-																	<form:option value="NonVeg"> Non-Veg </form:option>
-																	<form:option value="Neutral"> Neutral </form:option>
-															   </form:select>
-			<input type="submit" value="Add Food Item" />
-		</form:form>
-
+		<br>
+		  <p class="h4"> Enter Details :</p>
+		  <br>
+			<form:form action="addFoodItem" method="POST" modelAttribute="foodItem">
+			  <div class="form-group">
+			    <label for="name">Item Name</label>
+			      <form:input path="name" class="form-control" />
+			  </div>
+			 <div class="form-group">
+			    <label for="quantity">Quantity</label>
+			      <form:input path="quantity" class="form-control" aria-describedby="quantityHelp" />
+			       <small id="quantityHelp" class="form-text text-muted">Mention the unit also, for e.g., 4 pieces or 200gm</small>
+			  </div>
+			  <div class="form-group">
+			    <label for="price">Price (in Rupees)</label>
+			      <form:input path="price" class="form-control" />
+			  </div>
+			    <div class="form-group">
+				    <label for="foodType">Food Type</label>
+					    <form:select class="form-control" path="foodType" aria-describedby="foodTypeHelp">
+						     <form:option value="Veg"> Veg </form:option>
+							 <form:option value="NonVeg"> Non-Veg </form:option>
+							 <form:option value="Neutral"> Neutral </form:option>
+					    </form:select>
+					  <small id="foodTypeHelp" class="form-text text-muted">Veg/NonVeg/Neutral</small>
+	  		</div>
+			  <button type="submit" class="btn btn-primary">Add Food Item</button>
+			</form:form>
+	</div>
 </body>
 </html>
