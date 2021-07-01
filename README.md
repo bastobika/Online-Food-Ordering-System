@@ -17,5 +17,5 @@ Developed an online food ordering system which can be used by two categories of 
   
   c. Can keep track of all orders they have received.
 
-Also, there is an admin who can approve the Caterers, view all orders in case of any discrepencies.
+Also, there is an admin who can approve the Caterers and view all orders in case of any discrepencies.
 
