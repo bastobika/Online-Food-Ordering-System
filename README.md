@@ -3,7 +3,7 @@ Developed an online food ordering system which can be used by two categories of 
 
 1. Customers :
   a. Can order food from one restaurant at a time.
-  b. The total bill of the order will be calculated and the order would be placed. (No billing method has been added)
+  b. The total bill of the order will be calculated and the order would be placed. (No billing method has been added) 
   c. Customers can leave a rating for all the food items they have ordered as well as the entire restaurant once the order is completed.
   
 2. Caterers :
